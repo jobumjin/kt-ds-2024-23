@@ -51,14 +51,28 @@ public class IfExam2 {
 		if (age2 >= 19) {
 			System.out.println("범죄도시 1편을 관람할 수 있다.");
 		}
-		else if (age2 >= 15 && age2 < 19) {
+		else if (age2 >= 15) {
 			System.out.println("앤드게임을 관람할 수 있다.");			
 		}
-		else if (age2 >= 12 && age2 < 15) {
+		else if (age2 >= 12) {
 			System.out.println("헤리포터을 관람할 수 있다.");			
 		}
 		else {
 			System.out.println("뽀로로 극장판 공룡섬 대모험을 관람할 수 있다.");						
+		}
+		// 숫자의 경우 숫자가 큰곳에서 작은곳으로 가게되면 괜찮지만 작은곳에서 올라가게되면 어렵다. 
+		// ex - 뽀로로가 나오게됨.. 한가지 값을 받고 빠져나오는 것을 잊지말자...
+		if (age2 >= 0) {
+			System.out.println("뽀로로 극장판 공룡섬 대모험을 관람할 수 있다.");						
+		}
+		else if (age2 >= 12) {
+			System.out.println("헤리포터을 관람할 수 있다.");			
+		}
+		else if (age2 >= 15) {
+			System.out.println("앤드게임을 관람할 수 있다.");			
+		}
+		else {
+			System.out.println("범죄도시 1편을 관람할 수 있다.");
 		}
 	}
 }
