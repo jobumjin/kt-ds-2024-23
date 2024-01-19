@@ -12,5 +12,13 @@ public class ForProblem2 {
 			}
 		}
 		System.out.println(answer);
+		System.out.println();
+		
+		// 다른 방법 하지만 이렇게 잘쓰지는 않는다..
+		answer = 0;
+		for (int i = 0; i < 101; i+=2) {
+				answer += i;
+		}
+		System.out.println(answer);
 	}
 }
