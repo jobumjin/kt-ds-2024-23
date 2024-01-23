@@ -43,14 +43,16 @@ public class Mart {
 		// 객체지향방식으로 개발
 		
 		VendingMachine drinkMachine = new VendingMachine();
-		drinkMachine.money = 3000;
-		drinkMachine.productQuantity = 5;
+		//아래의 코드는 VendingMachine의 ㅐㅇ성자에서 대체함.
+//		drinkMachine.money = 3000;
+//		drinkMachine.productQuantity = 5;
 		
 		VendingMachine snackMachine = new VendingMachine();
 		
 		Customer musk = new Customer(200_000,50);
-		musk.wallet = 10000;
-		musk.stock = 0;
+//		아래 코드는 Customer의 생성자에서 대체함
+//		musk.wallet = 10000;
+//		musk.stock = 0;
 		
 		drinkMachine.insertMoney(musk);
 		drinkMachine.pressButton(musk);
