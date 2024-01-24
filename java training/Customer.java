@@ -56,14 +56,16 @@ public class Customer {
 			// 고객이 가진 상품의 정보를 제로콜라로 채워준다.
 			this.product.setName(name);
 			this.product.setPrice(price);
-			this.product.setQuantity(1);
+//			this.product.setQuantity(1);
+			this.product.setQuantity(VendingMachine.PRODUCT_COUNT);
 		}
 		// 고객이 제로콜라를 구매한 적이 있다면.
 		else {
 			// 고객이 가진 제로콜라의 수량을 1개 증가 시킨다.
 //			this.product.quantity++;
 			int quantity = this.product.getQuantity();
-			quantity++;
+//			quantity++;
+			quantity += VendingMachine.PRODUCT_COUNT;
 			this.product.setQuantity(quantity);
 		}
 	}

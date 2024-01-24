@@ -2,6 +2,21 @@ package vending_machine;
 
 public class VendingMachine {
 	
+	// 클래스 상수 (공용 상수)
+	/**
+	 * 한번에 구매할 수 있는 제품의 수
+	 */
+	public static final int PRODUCT_COUNT;
+	public static final String MACHINE_NAME;
+	
+	// 클래스 상수에 값을 할당하는 방법
+	// static block
+	static {
+		// static 변수 / 상수의 값을 초기화하는 공간
+		PRODUCT_COUNT = 2;
+		MACHINE_NAME = "자판기";
+	}
+	
 	// 상수 자리 
 //	final int PRICE = 1300;
 	
@@ -74,7 +89,8 @@ public class VendingMachine {
 //		this.productQuantity--;
 		//재고가 있다면 재고 하나 감소
 		int quantity = this.product.getQuantity();
-		quantity--;
+//		quantity--;
+		quantity -= VendingMachine.PRODUCT_COUNT;
 		this.product.setQuantity(quantity);
 		// 소비자의 재고는 상승 
 		// this.product.name, this.product.price를 파라미터로 갖는 addStock 기능 실행
