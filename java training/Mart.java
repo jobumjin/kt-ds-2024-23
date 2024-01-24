@@ -1,8 +1,5 @@
-package oop_exam;
+package vending_machine;
 
-/**
- * 자판기와 고객이 만나는 마트
- */
 public class Mart {
 	
 	/**
@@ -10,13 +7,15 @@ public class Mart {
 	 */
 	public static void case1() {
 		
+		// VendingMachine 생성자를 호출해 인스턴스 생성
 		VendingMachine drinkMachine = new VendingMachine();
-		drinkMachine.money = 3000;
-		drinkMachine.productQuantity = 5;
-		
-		Customer musk = new Customer(0, 0);
-		musk.wallet = 10000;
-		musk.stock = 0;
+
+		// Customer 생성자를 호출해 인스턴스 생성
+		Customer musk = new Customer(0);
+		// mask.wallet에 10000으로 값 재할당
+//		musk.wallet = 10000;
+//		musk.setWallet(10000); setter를 만들면 가능
+//		musk.stock = 0;
 		// 고객이 자판기에 돈을 넣는다.
 		// 고객이 가진 돈을 빼주고
 		musk.pay(1300);
@@ -28,12 +27,18 @@ public class Mart {
 		// 자판기의 수량이 하나 줄어들고 
 //		drinkMachine.pressButton();
 		// 고객의 수량이 하나 증가한다.
-		musk.addStock();
+		musk.addStock("",0);
 		
-		System.out.println("자판기의 잔액: " + drinkMachine.money);
-		System.out.println("자판기의 상품 수량: " + drinkMachine.productQuantity);
-		System.out.println("고객의 지갑 잔액: " + musk.wallet);
-		System.out.println("고객의 상품 수량: " + musk.stock);
+		//결과 출력
+		System.out.println("자판기의 잔액: " + drinkMachine.getMoney());
+		//결과 출력
+		System.out.println("자판기의 상품 수량: " + drinkMachine.getProduct().getQuantity());
+		//결과 출력
+		System.out.println("자판기의 상품 이름: " + drinkMachine.getProduct().getName());
+		//결과 출력
+		System.out.println("고객의 지갑 잔액: " + musk.getWallet());
+		//결과 출력
+		System.out.println("고객의 상품 수량: " + musk.getProduct().getQuantity());
 	
 		
 	}
@@ -41,27 +46,43 @@ public class Mart {
 	public static void main(String[] args) {
 		
 		// 객체지향방식으로 개발
-		
+		// VendingMachine 생성자를 호출해 인스턴스 생성
 		VendingMachine drinkMachine = new VendingMachine();
 		//아래의 코드는 VendingMachine의 ㅐㅇ성자에서 대체함.
 //		drinkMachine.money = 3000;
 //		drinkMachine.productQuantity = 5;
+		// VendingMachine 생성자를 호출해 새로운 인스턴스 생성
+//		VendingMachine snackMachine = new VendingMachine();
 		
-		VendingMachine snackMachine = new VendingMachine();
-		
-		Customer musk = new Customer(200_000,50);
+		// Customer 생성자를 호출해 인스턴스 생성
+		Customer musk = new Customer(200_000);
 //		아래 코드는 Customer의 생성자에서 대체함
 //		musk.wallet = 10000;
 //		musk.stock = 0;
 		
+		//VendingMachine 생성자를 호출해 생성된 인스턴스 drinkMachine에 insertMoney기능 실행
 		drinkMachine.insertMoney(musk);
+		//VendingMachine 생성자를 호출해 생성된 인스턴스 drinkMachine에 pressButton기능 실행
 		drinkMachine.pressButton(musk);
 		
-		System.out.println("자판기의 잔액: " + drinkMachine.money);
-		System.out.println("자판기의 상품 수량: " + drinkMachine.productQuantity);
-		System.out.println("고객의 지갑 잔액: " + musk.wallet);
-		System.out.println("고객의 상품 수량: " + musk.stock);
+		//VendingMachine 생성자를 호출해 생성된 인스턴스 drinkMachine에 insertMoney기능 실행
+		drinkMachine.insertMoney(musk);
+		//VendingMachine 생성자를 호출해 생성된 인스턴스 drinkMachine에 pressButton기능 실행
+		drinkMachine.pressButton(musk);
+
+		//결과출력
+		System.out.println("자판기의 잔액: " + drinkMachine.getMoney());
+		//결과출력
+		System.out.println("자판기의 상품 수량: " + drinkMachine.getProduct().getQuantity());
+		//결과출력
+		System.out.println("자판기의 상품 이름: " + drinkMachine.getProduct().getName());
+		//결과출력
+		System.out.println("고객의 지갑 잔액: " + musk.getWallet());
+		//결과출력
+		System.out.println("고객의 상품 수량: " + musk.getProduct().getQuantity());
 	
 		}
 	
+
+
 }
