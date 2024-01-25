@@ -13,7 +13,7 @@ public class VendingMachine {
 	// static block
 	static {
 		// static 변수 / 상수의 값을 초기화하는 공간
-		PRODUCT_COUNT = 2;
+		PRODUCT_COUNT = 1;
 		MACHINE_NAME = "자판기";
 	}
 	
@@ -65,6 +65,16 @@ public class VendingMachine {
 		 */
 	}
 	
+	//생성자 오버로딩
+	public VendingMachine (int money) {
+		this.money = money;
+		// 돈을 넣어주면 그 돈만큼 가지는 자판기 생성..
+		this.product = new Product();
+		this.product.setName("제로펩시");
+		this.product.setPrice(1600);
+		this.product.setQuantity(50);
+	}
+	
 	/**
 	 * 돈을 넣는다.
 	 * @param 돈을 넣은 고객
@@ -81,21 +91,40 @@ public class VendingMachine {
 	 * @param 버튼을 누른 고객
 	 */
 	public void pressButton(Customer customer) {
-//		if(this.productQuantity <= 0) {
-		// 만약 음료재고가 없다면
-		if(this.product.getQuantity() <= 0) {
-			return; // 메소드 즉시 종료
-		}
-//		this.productQuantity--;
-		//재고가 있다면 재고 하나 감소
-		int quantity = this.product.getQuantity();
-//		quantity--;
-		quantity -= VendingMachine.PRODUCT_COUNT;
-		this.product.setQuantity(quantity);
-		// 소비자의 재고는 상승 
-		// this.product.name, this.product.price를 파라미터로 갖는 addStock 기능 실행
-		customer.addStock(this.product.getName(), this.product.getPrice());
+////		if(this.productQuantity <= 0) {
+//		// 만약 음료재고가 없다면
+//		if(this.product.getQuantity() <= 0) {
+//			return; // 메소드 즉시 종료
+//		}
+////		this.productQuantity--;
+//		//재고가 있다면 재고 하나 감소
+//		int quantity = this.product.getQuantity();
+////		quantity--;
+//		quantity -= VendingMachine.PRODUCT_COUNT;
+//		this.product.setQuantity(quantity);
+//		// 소비자의 재고는 상승 
+//		// this.product.name, this.product.price를 파라미터로 갖는 addStock 기능 실행
+//		customer.addStock(this.product.getName(), this.product.getPrice());
+		
+		//같은 코드가 사라지게된다... 메소드 체이닝..
+		this.pressButton(customer, VendingMachine.PRODUCT_COUNT);
 	}
+	
+	// 메소드 오버러딩 -- 문제점 같은코드를 사용하게됨.. 
+	public void pressButton(Customer customer, int orderCount) {
+
+		if(this.product.getQuantity() <= 0) {
+			return; 
+		}
+		int quantity = this.product.getQuantity();
+		// orderCount만큼 판매하게됨
+		quantity -= orderCount;
+		this.product.setQuantity(quantity);
+		customer.addStock(this.product.getName(), this.product.getPrice(), orderCount);
+	
+	}
+	
+	
+ }
 
 
-}

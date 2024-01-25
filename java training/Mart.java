@@ -51,8 +51,6 @@ public class Mart {
 		//아래의 코드는 VendingMachine의 ㅐㅇ성자에서 대체함.
 //		drinkMachine.money = 3000;
 //		drinkMachine.productQuantity = 5;
-		// VendingMachine 생성자를 호출해 새로운 인스턴스 생성
-//		VendingMachine snackMachine = new VendingMachine();
 		
 		// Customer 생성자를 호출해 인스턴스 생성
 		Customer musk = new Customer(200_000);
@@ -80,7 +78,25 @@ public class Mart {
 		System.out.println("고객의 지갑 잔액: " + musk.getWallet());
 		//결과출력
 		System.out.println("고객의 상품 수량: " + musk.getProduct().getQuantity());
-	
+		
+		
+		// 메소드 오버로딩 생성자 오버로딩 출력해보기
+		VendingMachine snackMachine = new VendingMachine(400);
+
+		snackMachine.insertMoney(musk);
+		snackMachine.pressButton(musk, 4);
+		
+		//결과출력
+		System.out.println("자판기의 잔액: " + snackMachine.getMoney());
+		//결과출력
+		System.out.println("자판기의 상품 수량: " + snackMachine.getProduct().getQuantity());
+		//결과출력
+		System.out.println("자판기의 상품 이름: " + snackMachine.getProduct().getName());
+		//결과출력
+		System.out.println("고객의 지갑 잔액: " + musk.getWallet());
+		//결과출력
+		System.out.println("고객의 상품 수량: " + musk.getProduct().getQuantity());
+				
 		}
 	
 

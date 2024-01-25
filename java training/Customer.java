@@ -49,6 +49,30 @@ public class Customer {
 	 * 상품이 증가한다.
 	 */
 	public void addStock(String name, int price) {
+////		this.stock++;
+//		// 고객이 제로콜라를 구매한 적이 있는지? 확인.
+//		// 고객이 제로콜라를 구매한 적이 없다면 
+//		if (this.product.getName() == null) {
+//			// 고객이 가진 상품의 정보를 제로콜라로 채워준다.
+//			this.product.setName(name);
+//			this.product.setPrice(price);
+////			this.product.setQuantity(1);
+//			this.product.setQuantity(VendingMachine.PRODUCT_COUNT);
+//		}
+//		// 고객이 제로콜라를 구매한 적이 있다면.
+//		else {
+//			// 고객이 가진 제로콜라의 수량을 1개 증가 시킨다.
+////			this.product.quantity++;
+//			int quantity = this.product.getQuantity();
+////			quantity++;
+//			quantity += VendingMachine.PRODUCT_COUNT;
+//			this.product.setQuantity(quantity);
+//		}
+		this.addStock(name, price, VendingMachine.PRODUCT_COUNT);
+	}
+	
+	// 메소드 오버로딩 
+	public void addStock(String name, int price, int productCount) {
 //		this.stock++;
 		// 고객이 제로콜라를 구매한 적이 있는지? 확인.
 		// 고객이 제로콜라를 구매한 적이 없다면 
@@ -57,7 +81,7 @@ public class Customer {
 			this.product.setName(name);
 			this.product.setPrice(price);
 //			this.product.setQuantity(1);
-			this.product.setQuantity(VendingMachine.PRODUCT_COUNT);
+			this.product.setQuantity(productCount);
 		}
 		// 고객이 제로콜라를 구매한 적이 있다면.
 		else {
@@ -65,12 +89,10 @@ public class Customer {
 //			this.product.quantity++;
 			int quantity = this.product.getQuantity();
 //			quantity++;
-			quantity += VendingMachine.PRODUCT_COUNT;
+			quantity += productCount;
 			this.product.setQuantity(quantity);
 		}
 	}
-	
-	
 
 
 }
