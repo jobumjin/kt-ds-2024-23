@@ -1,5 +1,7 @@
 package string_exam;
 
+import java.util.Scanner;
+
 public class StringExam {
 	
 	public static void main(String[] args) {
@@ -87,7 +89,7 @@ public class StringExam {
 	System.out.println(phoneArea[2]);
 	
 	//startsWith
-	phone = "-+82 010-1234-1234";
+	phone = "+82 010-1234-1234";
 	boolean isKoreaNum = phone.startsWith("+82");
 	System.out.println(isKoreaNum);
 	
@@ -110,6 +112,22 @@ public class StringExam {
 	
 	String iStr = String.valueOf(1);
 	System.out.println(iStr);
+	
+	Scanner keyboard = new Scanner(System.in);
+	
+	// 문자열 비교
+	String str1 = "한글"; // Reference Type (메모리 주소)
+	String str2 = "한글"; // Reference Type (메모리 주소)
+	
+	// str1 == str2 <= 메모리 주소가 같은가?
+		
+	System.out.println(str1 == str2);
+	
+	String str3 = keyboard.nextLine();
+	String str4 = keyboard.nextLine();
+	
+	System.out.println(str3 == str4); // 메모리 주소 비교
+	System.out.println(str3.equals(str4)); // 값을 비교
 	
 	}
 	
