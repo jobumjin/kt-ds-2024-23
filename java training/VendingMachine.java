@@ -75,7 +75,7 @@ public class VendingMachine {
 		// 해당 제품의 가격으로 자판기의 돈을 ㅈ으가시키고
 		// 고객의 돈을 감소시킨다.
 		for (Product product : this.productArray) {
-			if(product.getName().equals(productName)) {
+			if(product.equals(productName)) {
 				this.money += product.getPrice();
 				customer.pay(product.getPrice());
 				break; // 반복을 중단..
@@ -102,7 +102,7 @@ public class VendingMachine {
 		// 그렇지 않다면 해당 제품의 수량을 하나 감소시키고
 		// 고객에게 해당 제품을 전달한다.
 		for (Product product : this.productArray) {
-			if(product.getName().equals(productName)) {
+			if(product.equals(productName)) {
 				
 				if (product.getQuantity() <= 0) {
 					return; //메소드 종료

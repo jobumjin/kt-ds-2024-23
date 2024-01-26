@@ -44,6 +44,32 @@ public class Product {
 		this.quantity = quantity;
 	}
 	
+	@Override // Annotation
+	public String toString() {
+		
+		String superToStringResult = super.toString();
+		System.out.println(superToStringResult);
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append("제품명 : " + this.name);
+		sb.append(", 가격 : " + this.price);
+		sb.append(", 재고 : " + this.quantity);
+		
+		return sb.toString();
+	}
 	
+	/*
+	 * Product p = new Product();
+	 * if ( p.equals("박카스") ) { ... }
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		
+		if (obj instanceof String) {
+			return this.name.equals((String)obj);
+		}
+		
+		return super.equals(obj);
+	}
 	
 }

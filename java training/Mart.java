@@ -35,6 +35,17 @@ public class Mart {
 //		printProduct(tp);
 //		
 		
+		Product p = new Product();
+		p.setName("보드마카");
+		p.setPrice(500);
+		p.setQuantity(40);
+		
+		System.out.println(p); // overriding을 통해 클래스@해시태그 가 아닌 재정의한대로 출력
+//		출력결과
+//		vending_machine.Product@279f2327
+//		제품명 : 보드마카, 가격 : 500, 재고 : 40
+		
+		
 		// 객체지향방식으로 개발
 		// VendingMachine 생성자를 호출해 인스턴스 생성
 		VendingMachine drinkMachine = new VendingMachine();
