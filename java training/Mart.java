@@ -2,7 +2,38 @@ package vending_machine;
 
 public class Mart {
 	
+//	// Object 를 파라미터로 쓸 수는 있는데.. 잘 안쓴다..
+//	public static void printProduct(Product p) {
+//		System.out.println(p.getName()); // null
+//
+//		// 이렇게 넣어주지 않으면 파라미터로 p product()타입의 인스턴스 를 받아올 수 없다.
+//		if(p instanceof TemperatureProduct) {			
+//			TemperatureProduct tp = (TemperatureProduct) p;
+//			tp.setIsHot(true);
+//			System.out.println(tp.getIsHot());
+//		}
+//		
+//	}
+	
 	public static void main(String[] args) {
+		
+		// 모든 클래스의 슈퍼클래스는 Object 이다. 
+		/*
+		 * Object
+		 * --> Product
+		 * 		--> TemperatureProduct
+		 * Product is a Object
+		 * TemperatureProduct is a Product
+		 * TemperatureProduct is a Object
+		 */
+//		Product p = new Product();
+//		TemperatureProduct tp = new TemperatureProduct();
+//		tp.setName("티피");
+////		PrintTemperatureProduct(p); 안된다.. 상속의 관계를 보아야함 
+//		printProduct(p);
+////		PrintTemperatureProduct(tp);
+//		printProduct(tp);
+//		
 		
 		// 객체지향방식으로 개발
 		// VendingMachine 생성자를 호출해 인스턴스 생성
