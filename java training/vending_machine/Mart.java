@@ -1,5 +1,8 @@
 package vending_machine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Mart {
 	
 //	// Object 를 파라미터로 쓸 수는 있는데.. 잘 안쓴다..
@@ -65,27 +68,30 @@ public class Mart {
 		// Seller drinkMachine = new RefundableVendingMachine();
 		
 		// VendingMachine에 있던 코드 가져와서 Mart에서 실행 // 제네릭연습
-		Product[] productArray = new Product[3];
+		List<Product> productList = new ArrayList<>();
 		// 돈을 넣어주면 그 돈만큼 가지는 자판기 생성..
-		productArray[0] = new Product();
-		productArray[0].setName("제로펩시");
-		productArray[0].setPrice(1600);
-		productArray[0].setQuantity(50);
+		Product product1 = new Product();
+		product1.setName("제로펩시");
+		product1.setPrice(1600);
+		product1.setQuantity(50);
+		productList.add(product1);
 		
-		productArray[1] = new Product();
-		productArray[1].setName("제로콜라");
-		productArray[1].setPrice(1500);
-		productArray[1].setQuantity(50);
-		
-		productArray[2] = new Product();
-		productArray[2].setName("제로스프라이트");
-		productArray[2].setPrice(1400);
-		productArray[2].setQuantity(50);
+		Product product2 = new Product();
+		product2.setName("제로콜라");
+		product2.setPrice(1500);
+		product2.setQuantity(50);
+		productList.add(product2);
+
+		Product product3 = new Product();
+		product3.setName("제로스프라이트");
+		product3.setPrice(1400);
+		product3.setQuantity(50);
+		productList.add(product3);
 		
 		
 		// 객체지향방식으로 개발
 		// VendingMachine 생성자를 호출해 인스턴스 생성
-		Sellable<Product> drinkMachine = new VendingMachine<>(100_000, productArray);
+		Sellable<Product> drinkMachine = new VendingMachine<>(100_000, productList);
 		drinkMachine.setInsertMoneyHandler(new InsertMoneyHandler<Product>() {
 
 			@Override
@@ -133,7 +139,7 @@ public class Mart {
 		
 		
 		// 메소드 오버로딩 생성자 오버로딩 출력해보기
-		Sellable<Product> snackMachine = new RefundableVendingMachine<>(400, productArray);
+		Sellable<Product> snackMachine = new RefundableVendingMachine<>(400, productList);
 
 		snackMachine.setInsertMoneyHandler(new InsertMoneyHandler<Product>() {
 
