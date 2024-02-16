@@ -21,3 +21,21 @@ SELECT *
   FROM EMPLOYEES
  ORDER BY LAST_NAME DESC -- <-- 내림차순 정렬.
 ;
+
+-- EMPLOYEES 테이블에서 LAST_NAME으로 내림차순 정렬을 하고 FIRST_NAME으로 오름차순 정렬을 해서 모든 데이터를 조회
+SELECT *
+  FROM EMPLOYEES
+ ORDER BY LAST_NAME DESC, FIRST_NAME ASC 
+;
+
+-- EMPLOYEES 테이블에서 SALARY(연봉)으로 오름차순 정렬을 하고 FIRST_NAME으로 내림차순 한 뒤 
+-- HIRE_DATE(입사일)로 오름차순 정렬하여 모든 데이터를 조회한다.
+SELECT *
+  FROM EMPLOYEES
+-- ORDER BY 는 항상 SELECT 문장의 가장 마지막에 온다. 
+ ORDER BY SALARY ASC
+     , FIRST_NAME DESC
+     , HIRE_DATE ASC 
+;
+
+
