@@ -26,4 +26,30 @@ public class ProducingDao {
 		 
 		return dbSupporter.insert(query.toString(), new Object[] {directorId, movieId});
 	}
+
+	public int deleteProducingByMovieId(DBSupporter dbSupporter, String movieId) {
+		StringBuffer query = new StringBuffer();
+		
+		query.append(" DELETE ");
+		query.append("   FROM PRODUCINGS ");
+		query.append("  WHERE MOVIE_ID = ? ");
+		
+		
+		return dbSupporter.insert(query.toString(), new Object[] {
+				movieId
+		});
+	}
+
+	public int deleteProducingByDirectorsId(DBSupporter dbSupporter, String directorsId) {
+		StringBuffer query = new StringBuffer();
+		
+		query.append(" DELETE ");
+		query.append("   FROM PRODUCINGS ");
+		query.append("  WHERE DIRECTOR_ID = ? ");
+		
+		
+		return dbSupporter.insert(query.toString(), new Object[] {
+				directorsId
+		});
+	}
 }

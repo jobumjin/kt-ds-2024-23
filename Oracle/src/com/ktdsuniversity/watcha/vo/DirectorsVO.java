@@ -18,7 +18,7 @@ public class DirectorsVO {
 		return directorId;
 	}
 	public void setDirectorId(String directorId) {
-		this.directorId = directorId;
+		this.directorId = directorId; 
 	}
 	public String getName() {
 		return name;

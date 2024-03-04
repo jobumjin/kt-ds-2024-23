@@ -49,7 +49,7 @@ public class DirectorsService {
 		dbSupporter.open();
 		
 		// 데이터 베이스에 등록된 모든 감독을 조회한다.
-		List<DirectorsVO> directors = this.directorsDao.selectAlldirectors(dbSupporter);
+		List<DirectorsVO> directors = this.directorsDao.selectAllDirectors(dbSupporter);
 
 		// 감독 목록을 반복하면서 해당 감독이 재작한 영화 목록을 조회한다.
 		directors.forEach((director) -> {
@@ -60,5 +60,67 @@ public class DirectorsService {
 		dbSupporter.close();
 		return directors;
 	}
-	
+
+	public List<DirectorsVO> findAllDirectors() {
+		DBSupporter dbSupporter = new DBSupporter("WATCHA", "WATCHA");
+		dbSupporter.open();
+		
+		// 데이터 베이스에 등록된 모든 감독을 조회한다.
+		List<DirectorsVO> directors = this.directorsDao.selectAllDirectors(dbSupporter);
+
+			
+		dbSupporter.close();
+		return directors;
+	}
+
+	public List<DirectorsVO> findDirectorsByName(String name) {
+		DBSupporter dbSupporter = new DBSupporter("WATCHA", "WATCHA");
+		dbSupporter.open();
+		
+		// 데이터 베이스에 등록된 모든 감독을 조회한다.
+		List<DirectorsVO> directors = this.directorsDao.selectDirectorsByName(dbSupporter, name);
+
+			
+		dbSupporter.close();
+		return directors;
+	}
+
+	public DirectorsVO findDirectorsById(String directorsId) {
+		DBSupporter dbSupporter = new DBSupporter("WATCHA", "WATCHA");
+		dbSupporter.open();
+		
+		// 데이터 베이스에 등록된 모든 감독을 조회한다.
+		DirectorsVO directorsVO = this.directorsDao.selectDirectorById(dbSupporter, directorsId);
+
+			
+		dbSupporter.close();
+		return directorsVO;
+	}
+
+	public boolean modifyOneDirector(DirectorsVO directorsVO) {
+		DBSupporter dbSupporter = new DBSupporter("WATCHA", "WATCHA");
+		dbSupporter.open();
+		
+		// 데이터 베이스에 등록된 모든 감독을 조회한다.
+		int updatedCount = this.directorsDao.updateOneDirector(dbSupporter, directorsVO);
+
+			
+		dbSupporter.close();
+		return updatedCount > 0;
+	}
+
+	public boolean deleteOneDirectorById(String directorsId) {
+		DBSupporter dbSupporter = new DBSupporter("WATCHA", "WATCHA");
+		dbSupporter.open();
+		
+		int deletedProducingCount = this.ProducingDao.deleteProducingByDirectorsId(dbSupporter, directorsId);
+		
+		
+		// 데이터 베이스에 등록된 모든 감독을 조회한다.
+		int deletedCount = this.directorsDao.deleteOneDirectorById(dbSupporter, directorsId);
+
+			
+		dbSupporter.close();
+		return deletedCount > 0;
+	}
 }

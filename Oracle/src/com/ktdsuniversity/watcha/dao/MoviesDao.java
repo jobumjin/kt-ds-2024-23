@@ -21,7 +21,7 @@ public class MoviesDao {
 	}
 	
 	public int insertNewMovie(DBSupporter dbSupporter
-			   , MoviesVO newMoviesVO) {
+			   , MoviesVO MoviesVO) {
 
 		StringBuffer query = new StringBuffer();
 		query.append(" INSERT INTO MOVIES "); 
@@ -49,16 +49,16 @@ public class MoviesDao {
 		query.append(" , ? /*POSTER*/ ");
 		query.append(" ) ");
 		
-		return dbSupporter.insert(query.toString(), new Object[] { newMoviesVO.getMovieId(),
-																   newMoviesVO.getTitle(),
-																   newMoviesVO.getMinimumAge(), 
-																   newMoviesVO.getOpenYear(), 
-																   newMoviesVO.getRunningTime(),
-																   newMoviesVO.getGenre(), 
-																   newMoviesVO.getAtmosphere(), 
-																   newMoviesVO.getLocation(),
-																   newMoviesVO.getSummary(), 
-																   newMoviesVO.getPoster()});
+		return dbSupporter.insert(query.toString(), new Object[] { MoviesVO.getMovieId(),
+																   MoviesVO.getTitle(),
+																   MoviesVO.getMinimumAge(), 
+																   MoviesVO.getOpenYear(), 
+																   MoviesVO.getRunningTime(),
+																   MoviesVO.getGenre(), 
+																   MoviesVO.getAtmosphere(), 
+																   MoviesVO.getLocation(),
+																   MoviesVO.getSummary(), 
+																   MoviesVO.getPoster()});
 	}
 	
 	public List<MoviesVO> selectMoviesByDirectorId(DBSupporter dbSupporter, String directorId) {
@@ -72,5 +72,105 @@ public class MoviesDao {
 				
 		
 		return dbSupporter.selectList(query.toString(), new Object[] {directorId}, MoviesVO.class);
+	}
+	
+	public List<MoviesVO> selectAllMovies(DBSupporter dbSupporter) {
+		
+		StringBuffer query = new StringBuffer();
+		
+		query.append(" SELECT MOVIE_ID ");
+		query.append("      , TITLE ");
+		query.append("      , MINIMUM_AGE ");
+		query.append("      , OPEN_YEAR ");
+		query.append("      , RUNNING_TIME ");
+		query.append("      , GENRE ");
+		query.append("      , ATMOSPHERE ");
+		query.append("      , LOCATION ");
+		query.append("      , SUMMARY ");
+		query.append("      , POSTER ");
+		query.append("   FROM MOVIES ");
+		query.append("  ORDER BY MOVIE_ID DESC ");
+		
+		return dbSupporter.selectList(query.toString(), null, MoviesVO.class);
+	}
+
+	public List<MoviesVO> selectMoviesByTitle(DBSupporter dbSupporter, String movieTitle) {
+		
+		StringBuffer query = new StringBuffer();
+		
+		query.append(" SELECT MOVIE_ID ");
+		query.append("      , TITLE ");
+		query.append("      , MINIMUM_AGE ");
+		query.append("      , OPEN_YEAR ");
+		query.append("      , RUNNING_TIME ");
+		query.append("      , GENRE ");
+		query.append("      , ATMOSPHERE ");
+		query.append("      , LOCATION ");
+		query.append("      , SUMMARY ");
+		query.append("      , POSTER ");
+		query.append("   FROM MOVIES ");
+		query.append("  WHERE TITLE LIKE '%' || ? || '%' ");
+		query.append("  ORDER BY MOVIE_ID DESC ");
+		
+		return dbSupporter.selectList(query.toString(),  new Object[] {movieTitle}, MoviesVO.class);
+	}
+
+	public MoviesVO selectMoviesById(DBSupporter dbSupporter, String movieId) {
+		StringBuffer query = new StringBuffer();
+		
+		query.append(" SELECT MOVIE_ID ");
+		query.append("      , TITLE ");
+		query.append("      , MINIMUM_AGE ");
+		query.append("      , OPEN_YEAR ");
+		query.append("      , RUNNING_TIME ");
+		query.append("      , GENRE ");
+		query.append("      , ATMOSPHERE ");
+		query.append("      , LOCATION ");
+		query.append("      , SUMMARY ");
+		query.append("      , POSTER ");
+		query.append("   FROM MOVIES ");
+		query.append("  WHERE MOVIE_ID = ? ");
+				
+		return dbSupporter.selectOne(query.toString()
+				,  new Object[] {movieId}, MoviesVO.class);
+	}
+
+	public int updateOneMovie(DBSupporter dbSupporter, MoviesVO moviesVO) {
+
+		StringBuffer query = new StringBuffer();
+		
+		query.append(" UPDATE MOVIES ");
+		query.append("    SET TITLE = ? ");
+		query.append(" 	    , MINIMUM_AGE = ? ");
+		query.append(" 	    , OPEN_YEAR = ? ");
+		query.append(" 	    , RUNNING_TIME = ? ");
+		query.append(" 	    , GENRE = ? ");
+		query.append(" 	    , ATMOSPHERE = ? ");
+		query.append(" 	    , LOCATION = ? ");
+		query.append(" 	    , SUMMARY = ? ");
+		query.append(" 	    , POSTER = ? ");
+		query.append("  WHERE MOVIE_ID = ? ");
+		
+		return dbSupporter.update(query.toString()
+				,  new Object[] {moviesVO.getTitle(),
+						         moviesVO.getMinimumAge(),
+						         moviesVO.getOpenYear(),
+						         moviesVO.getRunningTime(),
+						         moviesVO.getGenre(),
+						         moviesVO.getAtmosphere(),
+						         moviesVO.getLocation(),
+						         moviesVO.getSummary(),
+						         moviesVO.getPoster(),
+						         moviesVO.getMovieId()});
+	}
+
+	public int deleteOneMovieById(DBSupporter dbSupporter, String movieId) {
+		StringBuffer query = new StringBuffer();
+		
+		query.append(" DELETE ");
+		query.append("   FROM MOVIES ");
+		query.append("  WHERE MOVIE_ID = ? ");
+		
+		return dbSupporter.delete(query.toString(), new Object[] {movieId});
 	}
 }
