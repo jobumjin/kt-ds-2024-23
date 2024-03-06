@@ -1,0 +1,97 @@
+/* 
+html의 모든 tag는 전부 다 box model.이다. 
+*/
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: dimgray;
+}
+
+/* 
+div {
+    background-color: white;
+} 
+*/
+
+.Header {
+    background-color: lightgray;
+    /* width: 500px;
+    border: 10px solid red;
+    padding: 30px;
+    margin: 100px; */
+}
+
+.header-logo {
+    background-color: yellow;
+}
+
+.header-category {
+    background-color: whitesmoke;
+}
+
+.Content {
+    background-color: white;
+}
+
+.content-article {
+    background-color: white;
+    padding: 10px;
+}
+
+.content-article-title {
+    font-weight: normal;
+    color: black;
+    margin: 0;
+}
+
+.content-article-title-reply-count {
+    color: coral;
+    font-size: 15px;
+}
+
+.content-article-author {
+    color: brown;
+}
+
+.content-article-number {
+    color: gray;
+    
+}
+
+.content-article-create-date {
+    color: gray;
+}
+
+.Paginator {
+    background-color: lightgray;
+}
+
+.paginator-page-number {
+    background-color: aliceblue;
+    color: lightgray;
+    padding: 10px;
+}
+
+.paginator-active-page {
+    color: red;
+}
+
+.Footer {
+    background-color: black;
+    color: gray;
+}
+
+.footer-button-area {
+
+}
+
+.footer-button-area-login-btn {
+    background-color: darkgray;
+    font-size: 20px;
+}
+
+.footer-copyright {
+
+}

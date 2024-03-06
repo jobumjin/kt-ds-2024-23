@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS 작성방법 실습</title>
+    <!-- 
+        상대 경로에서 ./ 의 의미: 현재 폴더
+        상대 경로에서 ../ 의 의미: 상위 폴더
+     -->
+    <style>
+        /* 
+        권장하지 않는다..
+        만약, html 파일에 p 태그가 1000개가 있을 경우
+        1000개의 p 태그를 찾아서 일일이 스타일을 부여하기 때문.
+         */
+        p {
+            /* 글자의 크기를 100px(기본16px)로 변경한다. */
+            font-size: 100px;
+        }
+
+        body {
+            background-color: green;
+        }
+    </style>
+    <!-- 나중에 작성된 것으로 적용된다. -->
+    <link rel="stylesheet" href="./styles/mystyle.css">
+</head>
+<body>
+
+    <h1>This is a heading</h1>
+    <p>This is a paragraph</p>
+    
+</body>
+</html>

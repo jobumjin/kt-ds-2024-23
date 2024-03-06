@@ -1,0 +1,10 @@
+body {
+    background-color: lightblue;
+}
+
+h1 {
+    /* color: 텍스트의 색상을 변경 */
+    color: navy;
+    /* h1 태그의 왼쪽 여백을 20px 만큼 띄운다. */
+    margin-left: 20px;
+}
