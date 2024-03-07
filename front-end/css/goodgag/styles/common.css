@@ -43,16 +43,55 @@ div {
 }
 
 .header-logo {
-    background-color: yellow;
+    /* rgb(254,213,10) */
+    background-color: #fed50a;
+}
+
+.header-logo-list {
+    padding: 0;
+    margin: 0;
+}
+
+.header-logo-list-item {
+    display: inline-block;
 }
 
 .header-category {
     background-color: whitesmoke;
 }
 
+.header-category-list {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+.header-category-list-item {
+    display: inline-block;
+    width: 40%;
+    /* height: 40px; */
+    padding: 13px;
+}
+
+.header-category-list-item:hover {
+    font-weight: bold;
+    color: #ff0000;
+    text-decoration: underline;
+}
+
+.header-category-list-item:active {
+    font-size: 300%;
+}
+
+.header-category-active-item {
+    font-weight: bold;
+    color: red;
+    border-bottom: 3px solid red;
+}
+
 .Content {
     background-color: white;
-    height: calc(100% - 42px - 21px - 54px + 10px);
+    height: calc(100% - 166px - 83px - 54px - 10px);
 }
 
 .content-article {
@@ -67,6 +106,10 @@ div {
     margin-right: 0;
     /* border: 1px solid lightgray; */
     border-bottom: 1px solid lightgray;
+}
+
+.content-article:last-child {
+    border-bottom: 0px;
 }
 
 .content-article-title {
@@ -90,6 +133,12 @@ div {
     display: inline-block;
 }
 
+.content-article-author::after {
+    content: "|";
+    padding-left: 10px;
+    color: #dddddd;
+}
+
 .content-article-number {
     color: gray;
     display: inline-block;    
@@ -100,18 +149,37 @@ div {
     display: inline-block;
 }
 
+.content-article-create-date::before {
+    content: "|";
+    padding-right: 10px;
+    color: #dddddd;
+}
+
 .Paginator {
     background-color: lightgray;
+    padding: 20px 0;
+    /* Paginator의 자식 엘리먼트(태그)들을 (수평)가운데 정렬한다. */
+    text-align: center;
+}
+
+.paginator-list {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
 }
 
 .paginator-page-number {
     background-color: aliceblue;
     color: lightgray;
     padding: 10px;
+    display: inline-block;
+    border: 1px solid gray;
+    border-radius: 5px;
 }
 
 .paginator-active-page {
     color: red;
+    border: 1px solid red;
 }
 
 .Footer {
@@ -120,7 +188,7 @@ div {
 }
 
 .footer-button-area {
-
+    text-align: center;
 }
 
 .footer-button-area-login-btn {
@@ -129,5 +197,35 @@ div {
 }
 
 .footer-copyright {
-
+    text-align: center;
 }
+
+/* 
+이런식으로 사용하는 것은 바람직하지 못한다.
+a {
+    color: #333333;
+    text-decoration: none;
+} 
+*/
+
+/* 링크 스타일 변경 */
+a:link {
+    color: #333333;
+    text-decoration: none;
+}
+
+/* 방문한 적이 있는 링크 스타일 변경 */
+a:visited {
+    color: #0000ff;
+}
+
+/* 링크를 클릭할 때의 스타일 변경 */
+a:active {
+    color: #ff0000;
+}
+
+/* 링크에 마우스를 올렸을 때 스타일 변경 */
+a:hover {
+    font-weight: bold;
+}
+
