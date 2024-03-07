@@ -5,10 +5,29 @@ html의 모든 tag는 전부 다 box model.이다.
     box-sizing: border-box;
 }
 
-body {
-    background-color: dimgray;
+html {
+    height: 100%;
 }
 
+body {
+    background-color: dimgray;
+    margin: 0;
+    height: 100%;
+}
+
+.container {
+    background-color: white;
+    /* margin-left: 300px;
+    margin-right: 300px; */
+    /* 상 우 좌 하 */
+    /* margin: 10px 3px 20px 5px; */
+    /* 상하 좌우 */
+    /* margin: 0 300px; */
+    margin: 0 auto;
+    width: 600px;
+    height: 100%;
+
+}
 /* 
 div {
     background-color: white;
@@ -33,11 +52,21 @@ div {
 
 .Content {
     background-color: white;
+    height: calc(100% - 42px - 21px - 54px + 10px);
 }
 
 .content-article {
     background-color: white;
-    padding: 10px;
+    /* padding: 10px; */
+    padding-bottom: 10px;
+    margin: 10px;
+    /* margin-top: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-right: 10px; */
+    margin-right: 0;
+    /* border: 1px solid lightgray; */
+    border-bottom: 1px solid lightgray;
 }
 
 .content-article-title {
@@ -51,17 +80,24 @@ div {
     font-size: 15px;
 }
 
+.content-article-author-info-list {
+    padding: 0;
+    margin: 0;
+}
+
 .content-article-author {
     color: brown;
+    display: inline-block;
 }
 
 .content-article-number {
     color: gray;
-    
+    display: inline-block;    
 }
 
 .content-article-create-date {
     color: gray;
+    display: inline-block;
 }
 
 .Paginator {
