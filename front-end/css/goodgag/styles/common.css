@@ -15,6 +15,22 @@ body {
     height: 100%;
 }
 
+.go-to-top {
+    position: fixed;
+    bottom: 200px;
+    right: 250px;
+    text-align: center;
+    background-color: #fff6;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.go-to-top p {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+}
+
 .container {
     background-color: white;
     /* margin-left: 300px;
@@ -35,6 +51,10 @@ div {
 */
 
 .Header {
+    position: fixed;
+    width: 600px;
+    z-index: 2;
+    top: 0;
     background-color: lightgray;
     /* width: 500px;
     border: 10px solid red;
@@ -44,17 +64,63 @@ div {
 
 .header-logo {
     /* rgb(254,213,10) */
-    background-color: #fed50a;
+    background-color: #fed60a;
+
+    position: relative;
 }
 
+.header-logo-list-item:nth-child(2) {
+    position: absolute;
+    right: 120px;
+}
+
+.header-logo-list-item:last-child {
+    position: absolute;
+    right: 10px;
+}
+
+/* 이방식이 정석이다..
+.header-logo-list-item {
+    display: inline-block;
+    width: 49%;
+}
+
+.header-logo-list-item:last-child {
+    text-align: right;
+} 
+정석 여기까지..
+*/
+
+/* list로하기 여기서부터
 .header-logo-list {
     padding: 0;
     margin: 0;
+    list-style-type: none;
+} */
+
+/* .header-logo-list-item {
+    margin-right: 5px;
+} */
+
+
+/* .header-logo-list-item:nth-child(3) {
+    float: right;
 }
 
-.header-logo-list-item {
-    display: inline-block;
+.header-logo-list-item:nth-child(2) {
+    float: right;
 }
+
+.header-logo-list-item:first-child {
+    float: left;
+    margin-left: 10px;
+} */
+
+/* .header-logo-list-item:last-child {
+    float: right;
+} 
+리스트로하기 여기까지
+*/
 
 .header-category {
     background-color: whitesmoke;
@@ -90,11 +156,13 @@ div {
 }
 
 .Content {
+    margin-top: 166px;
     background-color: white;
     height: calc(100% - 166px - 83px - 54px - 10px);
 }
 
 .content-article {
+    position: relative;
     background-color: white;
     /* padding: 10px; */
     padding-bottom: 10px;
@@ -108,8 +176,28 @@ div {
     border-bottom: 1px solid lightgray;
 }
 
+.content-article:first-child {
+    margin-top: 0;
+    padding-top: 10px;
+}
+
 .content-article:last-child {
     border-bottom: 0px;
+}
+
+.best-article {
+    /* background-image: linear-gradient(90deg, red, orange, yellow, green, blue, navy, purple);
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: bold; */
+    position: absolute;
+    top: 0;
+    right: 10px;
+    background-color: #f00;
+    padding: 10px;
+    font-weight: bold;
+    font-style: italic;
+    color: #fff;
 }
 
 .content-article-title {
@@ -153,6 +241,41 @@ div {
     content: "|";
     padding-right: 10px;
     color: #dddddd;
+}
+
+.search-area {
+    padding: 10px;
+    text-align: center;
+}
+
+.search-form {
+    background-color: #f001;
+    padding: 10px;
+}
+
+.search-title {
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.search-input {
+    padding: 10px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    vertical-align: middle;
+}
+
+.search-input:focus {
+    outline: 0px;
+}
+
+.search-button {
+    background-color: #1a1af7;
+    padding: 8px;
+    border-radius: 3px;
+    border: 0px;
+    color: white;
+    vertical-align: middle;
 }
 
 .Paginator {
@@ -229,3 +352,6 @@ a:hover {
     font-weight: bold;
 }
 
+.clear-line {
+    clear: both;
+}

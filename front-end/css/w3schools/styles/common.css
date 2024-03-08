@@ -1,0 +1,38 @@
+body {
+    margin: 110px 0 0 210px;
+}
+.main-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background-color: #000;
+    margin: 0;
+    padding: 0;
+    z-index: 2;
+}
+
+.aside-menu {
+    position: fixed;
+    top: 100px;
+    left: 0;
+    bottom: 0;
+    width: 200px;
+    background-color: #888;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+}
+
+.container {
+    background-color: #ddd;
+    /* width: 100%; */
+}
+
+.container h1 {
+    position: sticky;
+    top: 100px;
+    padding-top: 10px;
+    background-color: #ddd;
+}
