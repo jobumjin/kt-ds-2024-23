@@ -1,0 +1,20 @@
+.empty-div {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background-color: #000;
+}
+
+/* .float-exam > .empty-div 자식.. */
+.float-exam .empty-div {
+    float: right;
+    margin: 10px;
+}
+
+.float-exam .empty-div:nth-child(2) {
+    float: left;
+}
+
+.clear-line {
+    clear: both;
+}
