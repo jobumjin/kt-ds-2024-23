@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flex Item 실습</title>
+    <link rel="stylesheet" href="./styles/flex_align.css">
+</head>
+<body>
+    <h3>Flex-Row</h3>
+    <h4>Basis = width</h4>
+    <div class="flex row">
+        <div style="flex-basis: 50%;">Content</div>
+        <div style="flex-basis: 50%;">Content</div>
+    </div>
+    
+    <h4>Basis = width</h4>
+    <h4>flex-wrap = nowrap</h4>
+    <div class="flex row">
+        <div style="flex-basis: 50%;">Content</div>
+        <div style="flex-basis: 50%;">Content</div>
+        <div style="flex-basis: 50%;">Content</div>
+        <div style="flex-basis: 50%;">Content</div>
+    </div>
+
+    <h4>Basis = width</h4>
+    <h4>flex-wrap = wrap</h4>
+    <div class="flex row wrap">
+        <div style="flex-basis: 50%;">Content</div>
+        <div style="flex-basis: 50%;">Content</div>
+        <div style="flex-basis: 50%;">Content</div>
+        <div style="flex-basis: 50%;">Content</div>
+        <div style="flex-basis: 50%;">Content</div>
+    </div>
+
+    <h4>Basis = width</h4>
+    <h4>flex-grow = default (0)</h4>
+    <div class="flex row">
+        <div style="flex-basis: 10rem;">Content</div>
+        <div style="flex-basis: 10rem;">Content</div>
+        <div style="flex-basis: 10rem;">Content</div>
+    </div>
+
+    <h4>Basis = width</h4>
+    <h4>flex-grow = 1</h4>
+    <div class="flex row">
+        <div style="flex-basis: 10rem; flex-grow: 1;">Content</div>
+        <div style="flex-basis: 10rem; flex-grow: 2;">Content</div>
+        <div style="flex-basis: 10rem; flex-grow: 1;">Content</div>
+    </div>
+
+    <h4>Basis = width</h4>
+    <h4>flex-shrink = default (1)</h4>
+    <div class="flex row">
+        <div style="flex-basis: 10rem; flex-grow: 1;">Content</div>
+        <div style="flex-basis: 10rem; flex-grow: 4;">Content</div>
+        <div style="flex-basis: 10rem; flex-grow: 1;">Content</div>
+    </div>
+
+    <h4>Basis = width</h4>
+    <h4>flex-shrink = 0</h4>
+    <div class="flex row">
+        <div style="flex-basis: 10rem; flex-grow: 1; flex-shrink: 0;">Content</div>
+        <div style="flex-basis: 10rem; flex-grow: 4; flex-shrink: 0;">Content</div>
+        <div style="flex-basis: 10rem; flex-grow: 1; flex-shrink: 0;">Content</div>
+    </div>
+
+    <h4>Basis = width</h4>
+    <h4>flex-shrink = 2</h4>
+    <div class="flex row">
+        <div style="flex-basis: 10rem; flex-grow: 1; flex-shrink: 0;">Content</div>
+        <div style="flex-basis: 10rem; flex-grow: 4; flex-shrink: 1;">Content</div>
+        <div style="flex-basis: 10rem; flex-grow: 1; flex-shrink: 2;">Content</div>
+    </div>
+
+    <h4>Basis = width</h4>
+    <h4>flex shorthand</h4>
+    <div class="flex row">
+        <div style="flex: 1 0 10rem">Content</div>
+        <div style="flex: 4 1 10rem">Content</div>
+        <div style="flex: 1 2 10rem">Content</div>
+    </div>
+
+<!-- -------------------------------------------------------- -->
+    <h3>Flex-column</h3>
+    <h4>Basis = height</h4>
+    <div class="h-640 flex column">
+        <div style="flex-basis: 50%;">Content</div>
+        <div style="flex-basis: 50%;">Content</div>
+    </div>
+    
+    <h4>Basis = height</h4>
+    <h4>flex-wrap = nowrap</h4>
+    <div class="h-640 flex column">
+        <div style="flex-basis: 50%;">Content</div>
+        <div style="flex-basis: 50%;">Content</div>
+        <div style="flex-basis: 50%;">Content</div>
+        <div style="flex-basis: 50%;">Content</div>
+    </div>
+
+    <h4>Basis = height</h4>
+    <h4>flex-wrap = wrap</h4>
+    <div class="h-640 flex column wrap">
+        <div style="flex-basis: 50%;">Content</div>
+        <div style="flex-basis: 50%;">Content</div>
+        <div style="flex-basis: 50%;">Content</div>
+        <div style="flex-basis: 50%;">Content</div>
+        <div style="flex-basis: 50%;">Content</div>
+    </div>
+
+    <h4>Basis = height</h4>
+    <h4>flex-grow = default (0)</h4>
+    <div class="h-640 flex column">
+        <div style="flex-basis: 10rem;">Content</div>
+        <div style="flex-basis: 10rem;">Content</div>
+        <div style="flex-basis: 10rem;">Content</div>
+    </div>
+    
+    <h4>Basis = height</h4>
+    <h4>flex-grow = 1</h4>
+    <div class="h-640 flex column">
+        <div style="flex-basis: 10rem; flex-grow: 1;">Content</div>
+        <div style="flex-basis: 10rem; flex-grow: 2;">Content</div>
+        <div style="flex-basis: 10rem; flex-grow: 1;">Content</div>
+    </div>
+
+    <h4>Basis = height</h4>
+    <h4>flex-shrink = default (1)</h4>
+    <div class="h-320 flex column">
+        <div style="flex-basis: 10rem; flex-grow: 1;">Content</div>
+        <div style="flex-basis: 10rem; flex-grow: 2;">Content</div>
+        <div style="flex-basis: 10rem; flex-grow: 1;">Content</div>
+    </div>
+
+    <h4>Basis = height</h4>
+    <h4>flex-shrink = 0</h4>
+    <div class="h-320 flex column">
+        <div style="flex-basis: 10rem; flex-grow: 1; flex-shrink: 0;">Content</div>
+        <div style="flex-basis: 10rem; flex-grow: 2; flex-shrink: 0;">Content</div>
+        <div style="flex-basis: 10rem; flex-grow: 1; flex-shrink: 0;">Content</div>
+    </div>
+
+    <h4>Basis = height</h4>
+    <h4>flex-shrink = 2</h4>
+    <div class="h-320 flex column">
+        <div style="flex-basis: 10rem; flex-grow: 1; flex-shrink: 0;">Content</div>
+        <div style="flex-basis: 10rem; flex-grow: 2; flex-shrink: 1;">Content</div>
+        <div style="flex-basis: 10rem; flex-grow: 1; flex-shrink: 2;">Content</div>
+    </div>
+</body>
+</html>
