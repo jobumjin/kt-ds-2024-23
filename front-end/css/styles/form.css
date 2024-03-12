@@ -1,0 +1,40 @@
+div {
+    background-color: #FF0;
+}
+
+.box {
+    padding: 1rem;
+    margin: 1rem;
+    background-color: #FFF;
+}
+
+.container {
+    padding: 1rem;
+    margin: 1rem;
+    background-color: #fc6d6d;
+}
+
+p {
+    padding: 1rem;
+    margin: 1rem;
+    background-color: #6060ff;
+}
+
+/* body div {
+    background-color: #000;
+    color: #F00;
+    border: 1rem solid #F00;
+} */
+
+/* body > div {
+    color: #F00;
+    border: 1rem solid #F00;
+} */
+
+/* div[class="box container"] {
+    border: 2rem dashed #00F;
+} */
+
+body > div[class="box container"] {
+    border: 3rem dotted #0F0;
+}
