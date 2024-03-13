@@ -1,0 +1,54 @@
+.move-box {
+    width: 10rem;
+    height: 10rem;
+    border: 1px solid #000;
+    transition: transform 0.5s;
+}
+
+.move-box:hover {
+    transform: translate(10rem, 10rem);
+}
+
+.change-color {
+    width: 10rem;
+    height: 10rem;
+    background-color: #FF0;
+    transition: background-color 0.5s;
+}
+
+.change-color:hover {
+    background-color: #F00;
+}
+
+.move-change-color {
+    width: 10rem;
+    height: 10rem;
+    background-color: #FF0;
+    transition: background-color 2s, transform 0.5s;
+}
+
+.move-change-color:hover {
+    background-color: #F00;
+    transform: translate(10rem, 10rem);
+}
+
+.menu-item {
+    width: 10rem;
+    height: 10rem;
+    border: 1px solid #000;
+    position: relative;
+}
+
+.menu-item > div {
+    width: 10rem;
+    height: 10rem;
+    background-color: #FF0;
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.menu-item > div:hover {
+    opacity: 1;
+}
