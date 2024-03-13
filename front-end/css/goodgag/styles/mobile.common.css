@@ -11,6 +11,21 @@
 }
 
 @media (max-width: 25.75rem) {
+    .content-article {
+        overflow: hidden;
+    }
+    .content-article:hover {
+        .best-article {
+            transform: rotate(-45deg) translate(1.5rem, 3.6rem) scale(2, 2);
+        }
+    }
+    .best-article {
+        width: 40%;
+        text-align: center;
+        padding: 0;
+        transform: rotate(-45deg) translate(1.5rem, 3.6rem);
+        transition: transform 0.3s;
+    }
     .search-title {
         display: block;
         margin-top: 1rem;
@@ -38,7 +53,7 @@
     }
 
     .content {
-        margin-top: 8.9rem;
+        /* margin-top: 8.9rem; */
     }
 
     .hamburger {
