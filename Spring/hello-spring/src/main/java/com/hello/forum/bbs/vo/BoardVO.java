@@ -10,7 +10,7 @@ public class BoardVO {
 	private String crtDt;
 	private String mdfyDt;
 	private String fileName;
-	private String originFile_name;
+	private String originFileName;
 	private String delYn;
 
 	public int getId() {
@@ -77,12 +77,12 @@ public class BoardVO {
 		this.fileName = fileName;
 	}
 
-	public String getOriginFile_name() {
-		return originFile_name;
+	public String getOriginFileName() {
+		return originFileName;
 	}
 
-	public void setOriginFile_name(String originFile_name) {
-		this.originFile_name = originFile_name;
+	public void setOriginFileName(String originFileName) {
+		this.originFileName = originFileName;
 	}
 
 	public String getDelYn() {
