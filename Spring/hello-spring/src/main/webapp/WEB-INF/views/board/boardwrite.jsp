@@ -10,7 +10,7 @@ pageEncoding="UTF-8"%>
       div.grid {
         display: grid;
         grid-template-columns: 80px 1fr;
-        grid-template-rows: 28px 28px 320px 1fr;
+        grid-template-rows: 28px 28px 28px 320px 1fr;
         row-gap: 10px;
       }
       div.grid > div.bin-group {
@@ -27,17 +27,23 @@ pageEncoding="UTF-8"%>
       textarea {
         padding: 10px;
       }
+      input[type="file"] {
+        padding: 0;
+      }
     </style>
   </head>
   <body>
     <h1>게시글 작성</h1>
-    <form action="/board/write" method="post">
+    <form action="/board/write" method="post" enctype="multipart/form-data">
       <div class="grid">
         <label for="subject">제목</label>
         <input id="subject" type="text" name="subject" />
 
         <label for="email">이메일</label>
         <input id="email" type="email" name="email" />
+
+        <label for="file">첨부파일</label>
+        <input type="file" name="file" id="file" />
 
         <label for="content">내용</label>
         <textarea id="content" name="content" style="height: 300px"></textarea>

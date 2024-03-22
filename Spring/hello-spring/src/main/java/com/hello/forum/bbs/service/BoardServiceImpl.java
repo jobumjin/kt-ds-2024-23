@@ -4,10 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hello.forum.bbs.dao.BoardDao;
 import com.hello.forum.bbs.vo.BoardListVO;
 import com.hello.forum.bbs.vo.BoardVO;
+import com.hello.forum.beans.FileHandler;
+import com.hello.forum.beans.FileHandler.StoredFile;
 
 /*
  * @Service : @Controller 와 @Repository를 연결하는 역할
@@ -41,6 +44,9 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	private BoardDao boardDao;
 	
+	@Autowired
+	private FileHandler fileHandler;
+	
 	@Override
 	public BoardListVO getAllBoard() {
 		// BoardDaoImpl 의 getBoardAllCount 를 이용해서 게시글의 건 수를 알고 싶고
@@ -55,8 +61,19 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public boolean createNewBoard(BoardVO boardVO) {
+	public boolean createNewBoard(BoardVO boardVO, MultipartFile file) {
 		
+		// 사용자가 파일을 업로드 했다면
+		if (file != null && ! file.isEmpty()) {
+			StoredFile storedFile = fileHandler.StoreFile(file);
+			// 업로드한 파일을 서버에 정상적으로 업로드 한 경우
+			if(storedFile != null) {
+				// 난독화 처리된 파일의 이름
+				boardVO.setFileName(storedFile.getRealFileName());
+				// 사용자가 업로드한 파일의 이름
+				boardVO.setOriginFileName(storedFile.getFileName());
+			}
+		}
 		int insertedCount = this.boardDao.insertNewBoard(boardVO);
 		return insertedCount > 0;
 	}
@@ -66,7 +83,7 @@ public class BoardServiceImpl implements BoardService {
 		// 1. 게시글 정보 조회하기
 		BoardVO boardVO = this.boardDao.selectOneBoard(id);
 		
-		// 게시글을 조회한 결과가 null이라면, 잘못된 접근입니다. 예외를 발생시킨다.
+		// 게시글을 조회한 결과가 null 이라면, 잘못된 접근입니다. 예외를 발생시킨다.
 		if (boardVO == null) {
 			throw new IllegalArgumentException("잘못된 접근입니다.");
 		}
