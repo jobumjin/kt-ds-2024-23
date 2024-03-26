@@ -28,12 +28,43 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
       input[type="file"] {
         padding: 0px;
       }
+      .available {
+        background-color: #0f03;
+      }
+      .unusable {
+        background-color: #f003;
+      }
     </style>
+    <script type="text/javascript" src="/js/lib/jquery-3.7.1.min.js"></script>
     <script type="text/javascript">
-      window.onload = function () {
-        var dialog = document.querySelector(".alert-dialog");
-        dialog.showModal();
-      };
+      $().ready(function () {
+        var alertDialog = $(".alert-dialog");
+        if (alertDialog && alertDialog.length > 0) {
+          alertDialog[0].showModal();
+        }
+
+        $("#email").on("keyup", function () {
+          // 서버에게 사용할 수 있는 이메일인지 확인 받는다.
+          $.get(
+            "/member/regist/available",
+            { email: $(this).val() },
+            function (response) {
+              console.log(response);
+              var email = response.email;
+              var available = response.available;
+              if (available) {
+                $("#email").addClass("available");
+                $("#email").removeClass("unusable");
+                $("#btn-regist").removeAttr("disabled");
+              } else {
+                $("#email").addClass("unusable");
+                $("#email").removeClass("available");
+                $("#btn-regist").attr("disabled", "disabled");
+              }
+            }
+          );
+        });
+      });
     </script>
   </head>
   <body>
@@ -46,20 +77,25 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
     <form method="post">
       <div class="grid">
         <label for="email">이메일</label>
-        <input type="email" type="email" name="email" />
+        <input type="email" id="email" name="email" />
 
         <label for="name">이름</label>
-        <input type="name" type="name" name="name" />
+        <input type="name" id="name" name="name" />
 
         <label for="password">비밀번호</label>
-        <input type="password" type="password" name="password" />
+        <input type="password" id="password" name="password" />
 
         <label for="confirmPassword">비밀번호 확인</label>
-        <input type="confirmPassword" type="password" name="confirmPassword" />
+        <input type="Password" id="confirmpassword" name="confirmPassword" />
 
         <div class="btn-group">
           <div class="right-align">
-            <input type="submit" value="등록" />
+            <input
+              id="btn-regist"
+              disabled="disabled"
+              type="submit"
+              value="등록"
+            />
           </div>
         </div>
       </div>

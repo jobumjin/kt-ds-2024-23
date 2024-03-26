@@ -89,4 +89,9 @@ public class CustomBeanInitializer {
 		fileHandler.setHandler(this.fileMimeTypeHandler);
 		return fileHandler;
 	}
+	
+	@Bean
+	SHA sha() {
+		return new SHA();
+	}
 }

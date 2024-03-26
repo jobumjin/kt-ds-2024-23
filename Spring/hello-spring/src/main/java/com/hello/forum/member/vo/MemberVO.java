@@ -5,6 +5,8 @@ public class MemberVO {
 	private String name;
 	private String password;
 	private String confirmPassword;
+	private String delYn;
+	private String salt;
 	public String getEmail() {
 		return email;
 	}
@@ -29,6 +31,20 @@ public class MemberVO {
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
+	
+	public String getDelYn() {
+		return delYn;
+	}
+	public void setDelYn(String delYn) {
+		this.delYn = delYn;
+	}
+	public String getSalt() {
+		return salt;
+	}
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+	
 	
 	
 }

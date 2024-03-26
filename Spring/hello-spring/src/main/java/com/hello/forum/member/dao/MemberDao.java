@@ -19,4 +19,8 @@ public interface MemberDao {
 	 * @return DB에 Insert한 회원의 개수
 	 */
 	public int createNewMember(MemberVO memberVO);
+
+	public String selectSalt(String email);
+
+	public MemberVO selectMemberByEmailAndPassword(MemberVO memberVO);
 }
