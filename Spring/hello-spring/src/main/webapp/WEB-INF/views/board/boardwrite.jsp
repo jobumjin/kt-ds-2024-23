@@ -5,6 +5,7 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
   <head>
     <meta charset="UTF-8" />
     <title>게시글 작성</title>
+    <jsp:include page="../commonheader.jsp"></jsp:include>
     <style type="text/css">
       /* div 인데 클래스가 grid인 것 */
       div.grid {
@@ -13,30 +14,14 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
         grid-template-rows: 28px 28px 28px 320px 1fr;
         row-gap: 10px;
       }
-      div.grid > div.bin-group {
-        grid-column: 1 / 3;
-      }
-      div.grid div.right-align {
-        text-align: right;
-      }
-      label {
-        padding-left: 10px;
-      }
-      button,
-      input,
-      textarea {
-        padding: 10px;
-      }
-      input[type="file"] {
-        padding: 0;
-      }
     </style>
-    <script type="text/javascript">
+    <script type="text/javascript" src="/js/boardwrite.js"></script>
+    <!-- <script type="text/javascript">
       window.onload = function () {
         var dialog = document.querySelector(".alert-dialog");
         dialog.showModal();
       };
-    </script>
+    </script> -->
   </head>
   <body>
     <c:if test="${not empty errorMessage}">
@@ -44,6 +29,7 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
         <h1>${errorMessage}</h1>
       </dialog>
     </c:if>
+    <jsp:include page="../member/membermenu.jsp"></jsp:include>
     <h1>게시글 작성</h1>
     <form action="/board/write" method="post" enctype="multipart/form-data">
       <div class="grid">
@@ -68,7 +54,7 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
           style="height: 300px"
           value="${boardVO.content}"
         ></textarea>
-        <div class="bin-group">
+        <div class="btn-group">
           <div class="right-align">
             <input type="submit" value="저장" />
           </div>

@@ -40,4 +40,10 @@ public class MemberDaoImpl extends SqlSessionDaoSupport implements MemberDao{
 		return getSqlSession().selectOne(MemberDao.NAME_SPACE + ".selectMemberByEmailAndPassword", memberVO);
 	}
 
+
+	@Override
+	public int deleteMemberByEmail(String email) {
+		return getSqlSession().update(MemberDao.NAME_SPACE + ".deleteMemberByEmail", email);
+	}
+
 }

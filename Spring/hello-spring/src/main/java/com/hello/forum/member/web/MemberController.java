@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.hello.forum.member.service.MemberService;
 import com.hello.forum.member.vo.MemberVO;
@@ -114,7 +116,7 @@ public class MemberController {
 			System.out.println("회원가입에 실패했습니다.");
 		}
 		
-		return "member/login";
+		return "redirect:/member/login";
 	}
 	
 	@GetMapping("/member/login")
@@ -148,5 +150,34 @@ public class MemberController {
 		}
 		
 		return new AjaxResponse().append("next", "/board/list");
+	}
+	
+	@GetMapping("/member/logout")
+	public String doLogout(HttpSession session) {
+		// Logout 처리
+		// sessionID로 전달된 세션의 모든 정보를 삭제
+		session.invalidate();
+		return "redirect:/board/list";
+	}
+	
+	@ResponseBody
+	@GetMapping("/member/delete-me")
+	public AjaxResponse doDeleteMe(HttpSession session, @SessionAttribute("_LOGIN_USER_") MemberVO memberVO) {
+		
+		// 현재 로그인되어있는 사용자의 정보
+//		MemberVO memberVO = (MemberVO) session.getAttribute("_LOGIN_USER_");
+		boolean isSuccess = this.memberService.deleteMe(memberVO.getEmail());
+		
+		return new AjaxResponse().append("next", isSuccess ? "/member/success-delete-me" : "/member/fail-delete-me");
+	}
+	
+	@GetMapping("/member/{result}-delete-me")
+	public String viewDeleteMePage(@PathVariable String result) {
+		result = result.toLowerCase();
+		if(!result.equals("fail") && !result.equals("success")) {
+			return "error/404";
+		}
+		
+		return "member/" +result +"deleteme";
 	}
 }
