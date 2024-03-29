@@ -8,6 +8,7 @@ $().ready(function () {
       {
         email: $("#email").val(),
         password: $("#password").val(),
+        nextUrl: $("#nextUrl").val(),
       },
       function (response) {
         // console.log(response);

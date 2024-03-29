@@ -34,6 +34,7 @@ pageEncoding="UTF-8"%>
   <body>
     <h1>로그인</h1>
     <form id="loginForm">
+      <input type="hidden" name="nextUrl" id="nextUrl" value="${nextUrl}" />
       <div class="grid">
         <label for="email">이메일</label>
         <input type="email" name="email" id="email" />

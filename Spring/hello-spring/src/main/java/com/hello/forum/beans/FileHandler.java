@@ -220,6 +220,16 @@ public class FileHandler {
 	}
 	
 	/**
+	 * 서버에 저장된 파일을 반환한다.
+	 * 만약, 존재하지 않는 파일이라면 File 인스턴스만 반환한다.
+	 * @param FileName
+	 * @return
+	 */
+	public File getStoredFile(String fileName) {
+		return new File(this.baseDir, fileName);
+	}
+	
+	/**
 	 * 서버에 저장된 파일을 사용자에게 다운로드한다.
 	 * @param originFileName 사용자가 다운로드받을 파일의 이름
 	 * @param fileName 사용자에게 다운로드 해줄 서버에 저장된 파일이름
