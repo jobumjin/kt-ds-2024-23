@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +29,8 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class MemberController {
 
+	private Logger logger = LoggerFactory.getLogger(MemberController.class);
+	
 	@Autowired
 	private MemberService memberService;
 	
@@ -110,10 +114,10 @@ public class MemberController {
 		boolean isSuccess = this.memberService.createNewMember(memberVO);
 
 		if(isSuccess) {
-			System.out.println("회원가입에 성공했습니다.");
+			logger.info("회원가입에 성공했습니다.");
 		}
 		else {
-			System.out.println("회원가입에 실패했습니다.");
+			logger.info("회원가입에 실패했습니다.");
 		}
 		
 		return "redirect:/member/login";
@@ -128,7 +132,7 @@ public class MemberController {
 	@PostMapping("/member/login")
 	public AjaxResponse doLogin(MemberVO memberVO, HttpSession session, @RequestParam(defaultValue = "/board/list") String nextUrl) {
 		
-		System.out.println("nextUrl: " + nextUrl);
+		logger.info("nextUrl: " + nextUrl);
 		// Validation Check(파라미터 유효성 검사)
 		Validator<MemberVO> validator = new Validator<>(memberVO);
 		validator.add("email", Type.NOT_EMPTY, "이메일을 입력해주세요.")

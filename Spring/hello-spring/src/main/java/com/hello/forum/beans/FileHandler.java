@@ -12,12 +12,16 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.tika.Tika;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.hello.forum.exceptions.FileNotExistsException;
 
 import net.sf.jmimemagic.Magic;
 import net.sf.jmimemagic.MagicException;
@@ -27,6 +31,7 @@ import net.sf.jmimemagic.MagicParseException;
 
 public class FileHandler {
 
+	private Logger logger = LoggerFactory.getLogger(FileHandler.class);
 	private String baseDir;
 	private boolean enableObfuscation;
 	private boolean enableObfuscationHideExt;
@@ -58,19 +63,14 @@ public class FileHandler {
 		this.handler = handler;
 	}
 	
-	/**
-	 * 사용자가 업로드한 파일을 서버에 저장한다.
-	 * @param multipartFile 사용자가 업로드한 파일. (Spring 에서 사용자가 업로드한 파일은 MultipartFile 로 받아올 수 있다.)
-	 * @return 업로드 결과 (사용자가 업로드한 파일명, 저장된 파일명, 저장된 파일의 크기, 저장된 파일의 경로)
-	 */
-	public StoredFile storeFile(MultipartFile multipartFile) {
-		
+	public StoredFile storeFile(MultipartFile multipartFile, boolean hideExt) {
+
 		// 사용자가 업로드한 파일의 이름.
 		String uploadedFileName = multipartFile.getOriginalFilename();
 		
 		// 난독화 정책에 의해서 만들어진 파일의 이름.
 		// 서버에 저장될 파일의 이름.
-		String fileName = this.getObfuscationFileName(uploadedFileName);
+		String fileName = this.getObfuscationFileName(uploadedFileName, hideExt);
 		
 		// 파일이 저장된 경로.
 		// this.baseDir : app.multipart.base-dir 에 할당된 값.
@@ -86,7 +86,8 @@ public class FileHandler {
 		try {
 			multipartFile.transferTo(storePath);
 		} catch (IllegalStateException | IOException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 			return null;
 		}
 		
@@ -100,9 +101,10 @@ public class FileHandler {
 				try {
 					mimeType = tika.detect(storePath);
 				} catch (IOException e) {
-					System.out.println(mimeType + " 파일은 업로드 할 수 없습니다.");
+					logger.debug(mimeType + " 파일은 업로드 할 수 없습니다.");
 					storePath.delete();
-					e.printStackTrace();
+//					e.printStackTrace();
+					logger.error(e.getMessage(), e);
 					return null;
 				}
 			}
@@ -114,9 +116,10 @@ public class FileHandler {
 					match = Magic.getMagicMatch(data);
 					mimeType = match.getMimeType();
 				} catch (MagicParseException | MagicMatchNotFoundException | MagicException | IOException e) {
-					System.out.println(mimeType + " 파일은 업로드 할 수 없습니다.");
+					logger.debug(mimeType + " 파일은 업로드 할 수 없습니다.");
 					storePath.delete();
-					e.printStackTrace();
+//					e.printStackTrace();
+					logger.error(e.getMessage(), e);
 					return null;
 				}
 				
@@ -124,11 +127,11 @@ public class FileHandler {
 			}
 			if(! this.availableFileList.contains(mimeType)) {
 				storePath.delete();
-				System.out.println(mimeType + " 파일은 업로드 할 수 없습니다.");
+				logger.debug(mimeType + " 파일은 업로드 할 수 없습니다.");
 				return null;
 			}
 			
-			System.out.println(mimeType + " 파일은 업로드했습니다.");
+			logger.debug(mimeType + " 파일은 업로드했습니다.");
 			// 아파치 티카 코드..
 ////			Tika tika = new Tika();
 ////			try {
@@ -170,6 +173,15 @@ public class FileHandler {
 	}
 	
 	/**
+	 * 사용자가 업로드한 파일을 서버에 저장한다.
+	 * @param multipartFile 사용자가 업로드한 파일. (Spring 에서 사용자가 업로드한 파일은 MultipartFile 로 받아올 수 있다.)
+	 * @return 업로드 결과 (사용자가 업로드한 파일명, 저장된 파일명, 저장된 파일의 크기, 저장된 파일의 경로)
+	 */
+	public StoredFile storeFile(MultipartFile multipartFile) {
+		return this.storeFile(multipartFile, true);
+	}
+	
+	/**
 	 * 사용자가 파일 업로드를 했을 때 
 	 * application.yml에 정의된 난독화 정책에 의해서 파일명을 난독화한 뒤
 	 * 난독화된 파일명을 반환한다. 
@@ -178,7 +190,7 @@ public class FileHandler {
 	 * @param fileName 사용자가 업로드한 파일의 이름
 	 * @return 난독화된 파일의 이름.
 	 */
-	private String getObfuscationFileName(String fileName) {
+	private String getObfuscationFileName(String fileName, boolean hideExt) {
 		// application.yml 파일의
 		// app.multipart.obfuscation.enable 의 값이 true 일 경우
 		if (this.enableObfuscation) {
@@ -194,7 +206,7 @@ public class FileHandler {
 			/*
 			 * app.multipart.obfuscation.hide-ext.enable의 값이 true 일 때
 			 */
-			if(this.enableObfuscationHideExt) {
+			if(this.enableObfuscationHideExt && hideExt) {
 				// 난독화된 파일의 이름을 반환.
 				return obfuscationName;
 			}
@@ -248,7 +260,8 @@ public class FileHandler {
 		try {
 			newFileName = new String(originFileName.getBytes("UTF-8"),"ISO-8859-1");
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
 		
 		HttpHeaders header = new HttpHeaders();
@@ -259,8 +272,9 @@ public class FileHandler {
 		try {
 			resource = new InputStreamResource(new FileInputStream(downloadFile));
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			throw new IllegalArgumentException("파일이 존재하지 않습니다.");
+//			e.printStackTrace();
+			logger.error(e.getMessage(), e);
+			throw new FileNotExistsException();
 		}
 		
 		// 사용자에게 다운로드 해준다.

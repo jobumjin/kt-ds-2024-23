@@ -11,6 +11,8 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,15 +31,23 @@ import com.hello.forum.bbs.service.BoardService;
 import com.hello.forum.bbs.vo.BoardListVO;
 import com.hello.forum.bbs.vo.BoardVO;
 import com.hello.forum.beans.FileHandler;
+import com.hello.forum.exceptions.MakeXlsxFileException;
+import com.hello.forum.exceptions.PageNotFoundException;
 import com.hello.forum.member.vo.MemberVO;
+import com.hello.forum.utils.AjaxResponse;
 import com.hello.forum.utils.ValidationUtils;
 
+import io.github.seccoding.excel.option.WriteOption;
+import io.github.seccoding.excel.write.ExcelWrite;
 import jakarta.servlet.http.HttpSession;
+
 
 //import jakarta.validation.Valid;
 
 @Controller
 public class BoardController {
+	
+	private Logger logger = LoggerFactory.getLogger(BoardController.class);
 	
 	@Autowired
 	private FileHandler fileHandler;
@@ -110,7 +121,7 @@ public class BoardController {
 			@SessionAttribute("_LOGIN_USER_") MemberVO memberVO,
 			Model model
 			) {
-		System.out.println("글 등록 처리를 해야합니다.");
+		logger.info("글 등록 처리를 해야합니다.");
 		
 		/* Servlet like
 		 * HttpServletRequest를 이용
@@ -158,10 +169,10 @@ public class BoardController {
 		
 		boolean isCreateSuccess = this.boardService.createNewBoard(boardVO, file);
 		if(isCreateSuccess) {
-			System.out.println("글 등록 성공!");
+			logger.info("글 등록 성공!");
 		}
 		else {
-			System.out.println("글 등록 실패!");			
+			logger.info("글 등록 실패!");			
 		}
 		
 		// board/boardlist 페이지를 보여주는 URL로 이동처리.
@@ -197,7 +208,7 @@ public class BoardController {
 		BoardVO boardVO = this.boardService.getOneBoard(id, false);
 		
 		if(!memberVO.getEmail().equals(boardVO.getEmail())) {
-			throw new IllegalArgumentException("잘못된 접근입니다!");
+			throw new PageNotFoundException();
 		}
 		
 		// 2. 게시글의 정보를 화면에 보내준다.
@@ -219,7 +230,7 @@ public class BoardController {
 		BoardVO originalBoardVO = this.boardService.getOneBoard(id, false);
 		
 		if(!originalBoardVO.getEmail().equals(memberVO.getEmail())) {
-			throw new IllegalArgumentException("잘못된 접근입니다!");
+			throw new PageNotFoundException();
 		}
 		
 		// 수동 검사 시작
@@ -258,10 +269,10 @@ public class BoardController {
 		boolean isUpdatedSuccess= this.boardService.updateOneBoard(boardVO, file);
 		
 		if(isUpdatedSuccess) {
-			System.out.println("수정 성공했습니다.");
+			logger.info("수정 성공했습니다.");
 		}
 		else {
-			System.out.println("수정 실패했습니다.");
+			logger.info("수정 실패했습니다.");
 		}
 		
 		return "redirect:/board/view?id=" + id;
@@ -288,16 +299,16 @@ public class BoardController {
 		BoardVO originalBoardVO = this.boardService.getOneBoard(id, false);
 		
 		if(!originalBoardVO.getEmail().equals(memberVO.getEmail())) {
-			throw new IllegalArgumentException("잘못된 접근입니다!");
+			throw new PageNotFoundException();
 		}
 		
 		boolean isDeletedSuccess = this.boardService.deleteOneBoard(id);
 		
 		if(isDeletedSuccess) {
-			System.out.println("게시글 삭제 완료.");
+			logger.info("게시글 삭제 완료.");
 		}
 		else {
-			System.out.println("게시글 삭제 실패.");
+			logger.info("게시글 삭제 실패.");
 		}
 		
 		return "redirect:/board/list";
@@ -311,16 +322,31 @@ public class BoardController {
 		
 		// 만약 게시글이 존재하지 않다면."잘못된 접근입니다."라는 에러를 사용자에게 보여준다.
 		if(boardVO == null) {
-			throw new IllegalArgumentException("잘못된 접근입니다!");
+			throw new PageNotFoundException();
 		}
 		
 		// 첨부된 파일이 없을 경우에도 "잘못된 접근입니다."라는 에러를 사용자에게 보여준다.
 		if(boardVO.getFileName() == null || boardVO.getFileName().length() == 0) {
-			throw new IllegalArgumentException("잘못된 접근입니다!");
+			throw new PageNotFoundException();
 		}
 		// 첨부된 파일이 있을 겨웅엔 파일을 사용자에게 보여준다. (Download)
 		
 		return this.fileHandler.download(boardVO.getOriginFileName(), boardVO.getFileName());
+	}
+	
+	@GetMapping("/board/excel/download2")
+	public ResponseEntity<Resource> downloadExcelFile2() {
+		
+		BoardListVO boardListVO = boardService.getAllBoard();
+		
+		WriteOption<BoardVO> writeOption = new WriteOption<>();
+		writeOption.setFileName("게시글_목록.xlsx");
+		writeOption.setFilePath("C:\\uploadFiles");
+		writeOption.setContents(boardListVO.getBoardList());
+		
+		File excelFile = ExcelWrite.write(writeOption);
+		
+		return this.fileHandler.download("게시글_목록.xlsx", excelFile.getName());
 	}
 	
 	@GetMapping("/board/excel/download")
@@ -395,7 +421,7 @@ public class BoardController {
 			os = new FileOutputStream(storedFile);
 			workbook.write(os);
 		} catch (IOException e) {
-			throw new IllegalArgumentException("엑셀파일을 만들 수 없습니다.");
+			throw new MakeXlsxFileException();
 		} finally {
 			try {
 				workbook.close();
@@ -410,6 +436,15 @@ public class BoardController {
 			}
 		}
 		
-		return this.fileHandler.download("게시글_목록.xlsx", "게시글_목록.xlsx");
+		return this.fileHandler.download("게시글_목록.xlsx", storedFile.getName());
+	}
+	
+	@ResponseBody
+	@PostMapping("/board/excel/write")
+	public AjaxResponse doExcelUpload(@RequestParam MultipartFile excelFile) {
+		
+		boolean isSuccess = this.boardService.createMassiveBoard2(excelFile);
+		
+		return new AjaxResponse().append("result", isSuccess).append("next", "/board/list");
 	}
 }

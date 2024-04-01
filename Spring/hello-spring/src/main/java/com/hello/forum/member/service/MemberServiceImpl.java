@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hello.forum.beans.SHA;
+import com.hello.forum.exceptions.AlreadyUserException;
+import com.hello.forum.exceptions.UserIdendifyNotMatchException;
 import com.hello.forum.member.dao.MemberDao;
 import com.hello.forum.member.vo.MemberVO;
 import com.hello.forum.utils.StringUtils;
@@ -21,7 +23,7 @@ public class MemberServiceImpl implements MemberService {
 	public boolean createNewMember(MemberVO memberVO) {
 		int emailCount = memberDao.getEmailCount(memberVO.getEmail());
 		if(emailCount > 0) {
-			throw new IllegalArgumentException("Email이 이미 사용중입니다.");
+			throw new AlreadyUserException(memberVO.getEmail());
 		}
 		
 		String password = memberVO.getPassword();
@@ -46,7 +48,7 @@ public class MemberServiceImpl implements MemberService {
 		String storedSalt = this.memberDao.selectSalt(memberVO.getEmail());
 		// 만약 salt 값이 null 이라면 회원정보가 없는 것이므로 사용자에게 예외를 전달한다.
 		if(StringUtils.isEmpty(storedSalt)) {
-			throw new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다.");
+			throw new UserIdendifyNotMatchException();
 		}
 		// 2. salt 값이 있을 경우 salt 를 이용해 SHA 암호화 한다.
 		String password = memberVO.getPassword();
@@ -56,7 +58,7 @@ public class MemberServiceImpl implements MemberService {
 		MemberVO member = this.memberDao.selectMemberByEmailAndPassword(memberVO);
 		// 만약 회원정보가 null 이라면 회원 정보가 없는 것이므로사용자에게 예외를 전달한다.
 		if(member == null) {
-			throw new IllegalArgumentException("이메일 또는 비밀번호가 잘못되었습니다.");
+			throw new UserIdendifyNotMatchException();
 		} 
 		return member;
 	}

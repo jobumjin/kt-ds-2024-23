@@ -1,5 +1,7 @@
 package com.hello.forum.sample.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -31,10 +33,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller  // <-- Servlet
 public class HelloBootController {
 	
+	private Logger logger = LoggerFactory.getLogger(HelloBootController.class);
+	
 	public HelloBootController() {
 		// Spring 이 호출하다!!! -> 생성된 객체를 Bean Container 에 보관한다.
-		System.out.println("HelloBootController() 호출됨.");
-		System.out.println(this);
+		logger.info("HelloBootController() 호출됨.");
+		logger.info(this.toString());
 	}
 	
 	@GetMapping("/hello") // @GetMapping doGet();
