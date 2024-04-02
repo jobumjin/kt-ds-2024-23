@@ -41,7 +41,7 @@ public class MemberController {
 	
 	// http://localhost:8080/member/regist/available?email=aaa@aaa.com
 	@ResponseBody // JSON으로 응답한다.
-	@GetMapping("/member/regist/available")
+	@GetMapping("/ajax/member/regist/available")
 	public Map<String, Object> checkAvailableEmail(@RequestParam String email){
 		
 		// 사용가능한 이메일이라면 true 아니라면 false 를 반환
@@ -129,7 +129,7 @@ public class MemberController {
 	}
 	
 	@ResponseBody
-	@PostMapping("/member/login")
+	@PostMapping("/ajax/member/login")
 	public AjaxResponse doLogin(MemberVO memberVO, HttpSession session, @RequestParam(defaultValue = "/board/list") String nextUrl) {
 		
 		logger.info("nextUrl: " + nextUrl);
@@ -145,15 +145,15 @@ public class MemberController {
 		}
 		
 		
-		try {
+//		try {
 			MemberVO member = this.memberService.getMember(memberVO);
 			// 로그인이 정상적으로 이루어졋다면 세션을 생성한다.
 			session.setAttribute("_LOGIN_USER_", member);
 			session.setMaxInactiveInterval(0);
-		} catch (IllegalArgumentException iae) {
+//		} catch (IllegalArgumentException iae) {
 			// 로그인에 실패했다면 화면으로 실패사유를 보내준다.
-			return new AjaxResponse().append("errorMessage", iae.getMessage());
-		}
+//			return new AjaxResponse().append("errorMessage", iae.getMessage());
+//		}
 		
 		return new AjaxResponse().append("next", nextUrl);
 	}
@@ -167,7 +167,7 @@ public class MemberController {
 	}
 	
 	@ResponseBody
-	@GetMapping("/member/delete-me")
+	@GetMapping("/ajax/member/delete-me")
 	public AjaxResponse doDeleteMe(HttpSession session, @SessionAttribute("_LOGIN_USER_") MemberVO memberVO) {
 		
 		// 현재 로그인되어있는 사용자의 정보
