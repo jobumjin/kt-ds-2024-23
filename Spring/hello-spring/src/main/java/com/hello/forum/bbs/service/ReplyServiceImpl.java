@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hello.forum.bbs.dao.ReplyDao;
 import com.hello.forum.bbs.vo.ReplyVO;
@@ -20,6 +21,7 @@ public class ReplyServiceImpl implements ReplyService{
 		return replyDao.getAllReplies(boardId);
 	}
 
+	@Transactional
 	@Override
 	public boolean createNewReply(ReplyVO replyVO) {
 		
@@ -27,6 +29,7 @@ public class ReplyServiceImpl implements ReplyService{
 		return insertCount > 0;
 	}
 
+	@Transactional
 	@Override
 	public boolean deleteOneReply(int replyId, String email) {
 		
@@ -37,6 +40,7 @@ public class ReplyServiceImpl implements ReplyService{
 		return replyDao.deleteOneReply(replyId) > 0;
 	}
 
+	@Transactional
 	@Override
 	public boolean modifyOneReply(ReplyVO replyVO) {
 		
@@ -47,6 +51,7 @@ public class ReplyServiceImpl implements ReplyService{
 		return replyDao.modifyOneReply(replyVO) > 0;
 	}
 
+	@Transactional
 	@Override
 	public boolean recommendOneReply(int replyId, String email) {
 		
@@ -54,7 +59,7 @@ public class ReplyServiceImpl implements ReplyService{
 		if(email.equals(replyVO.getEmail())) {
 			throw new PageNotFoundException();
 		}
-		return false;
+		return replyDao.recommendOneReply(replyId) > 0;
 	}
 	
 	

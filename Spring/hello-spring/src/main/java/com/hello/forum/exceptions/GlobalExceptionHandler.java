@@ -26,6 +26,7 @@ public class GlobalExceptionHandler {
 	 */
 	@ExceptionHandler(PageNotFoundException.class)
 	public Object viewPageNotFoundPage(PageNotFoundException pnfe, Model model) {
+		pnfe.printStackTrace();
 		
 		HttpServletRequest request = RequestUtil.getRequest();
 		String uri = request.getRequestURI();
@@ -52,7 +53,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler({FileNotExistsException.class, MakeXlsxFileException.class,
 		AlreadyUserException.class, UserIdendifyNotMatchException.class, RuntimeException.class} )
 	public Object viewErrorPage(RuntimeException re, Model model) {
-		
+		re.printStackTrace();
 		HttpServletRequest request = RequestUtil.getRequest();
 		String uri = request.getRequestURI();
 		if(uri.startsWith("/ajax")) {

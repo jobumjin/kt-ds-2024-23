@@ -6,7 +6,7 @@
 
 	<resultMap type="com.hello.forum.bbs.vo.ReplyVO" id="replyVOMap" autoMapping="true">
 		<id column="REPLY_ID" property="replyId"/>
-		<association property="memberVO" javaType="com.hello.forum.member.vo">
+		<association property="memberVO" javaType="com.hello.forum.member.vo.MemberVO">
 			<id column="EMAIL" property="email"/>
 			<result column="NAME" property="name"/>
 		</association>
@@ -14,7 +14,7 @@
 	
 	<select id="getAllReplies"
 			 parameterType = "_int"
-			 resultMap="replyVOMAP">
+			 resultMap="replyVOMap">
 		SELECT LEVEL
 		     , R.REPLY_ID
 		     , R.BOARD_ID
@@ -24,7 +24,7 @@
 		     , R.MDFY_DT
 		     , R.RECOMMEND_CNT
 		     , R.PARENT_REPLY_ID
-		     , R.NAME
+		     , M.NAME
 		  FROM REPLIES R
 		 INNER JOIN BOARD B
 		    ON R.BOARD_ID = B.ID
@@ -37,7 +37,7 @@
 	
 	<select id="getOneReply"
 			 parameterType = "_int"
-			 resultMap="replyVOMAP">
+			 resultMap="replyVOMap">
 		SELECT R.REPLY_ID
 		     , R.BOARD_ID
 		     , R.EMAIL
@@ -46,7 +46,7 @@
 		     , R.MDFY_DT
 		     , R.RECOMMEND_CNT
 		     , R.PARENT_REPLY_ID
-		     , R.NAME
+		     , M.NAME
 		  FROM REPLIES R
 		 INNER JOIN BOARD B
 		    ON R.BOARD_ID = B.ID
@@ -57,7 +57,7 @@
 			 
 	<insert id="createNewReply"
 			 parameterType="com.hello.forum.bbs.vo.ReplyVO">
-		INSERT INTO REPLISE(
+		INSERT INTO REPLIES(
 		       REPLY_ID
 		     , BOARD_ID
 		     , EMAIL
