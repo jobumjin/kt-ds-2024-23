@@ -34,6 +34,7 @@ public class ReplyServiceImpl implements ReplyService{
 	public boolean deleteOneReply(int replyId, String email) {
 		
 		ReplyVO replyVO = replyDao.getOneReply(replyId);
+		
 		if(!email.equals(replyVO.getEmail())) {
 			throw new PageNotFoundException();
 		}

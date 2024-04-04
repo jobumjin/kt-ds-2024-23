@@ -25,7 +25,7 @@ public class ReplyDaoImpl extends SqlSessionDaoSupport implements ReplyDao{
 
 	@Override
 	public ReplyVO getOneReply(int replyId) {
-		return getSqlSession().selectOne(ReplyDao.NAME_SPACE + ".getAllReplies", replyId);
+		return getSqlSession().selectOne(ReplyDao.NAME_SPACE + ".getOneReply", replyId);
 	}
 
 	@Override

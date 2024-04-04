@@ -4,7 +4,7 @@ import com.hello.forum.member.vo.MemberVO;
 
 public class ReplyVO {
 
-//	private int level;
+	private int level;
 	private int replyId;
 	private int boardId;
 	private String email;
@@ -25,13 +25,13 @@ public class ReplyVO {
 		this.memberVO = memberVO;
 	}
 
-//	public int getLevel() {
-//		return level;
-//	}
-//
-//	public void setLevel(int level) {
-//		this.level = level;
-//	}
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
 
 	public int getReplyId() {
 		return replyId;

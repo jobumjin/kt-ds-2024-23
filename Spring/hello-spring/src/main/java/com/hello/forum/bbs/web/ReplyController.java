@@ -53,6 +53,7 @@ public class ReplyController {
 	@GetMapping("/ajax/board/reply/delete/{replyId}")
 	public AjaxResponse doDeleteReplies(@PathVariable int replyId,
 			@SessionAttribute("_LOGIN_USER_") MemberVO memberVO) {
+		
 		boolean isSuccess = replyService.deleteOneReply(replyId, memberVO.getEmail());
 //		Map<String, Object> resultMap = new HashMap<>();
 //		resultMap.put("result", isSuccess);
