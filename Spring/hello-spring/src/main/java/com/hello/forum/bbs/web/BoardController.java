@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.hello.forum.bbs.service.BoardService;
 import com.hello.forum.bbs.vo.BoardListVO;
 import com.hello.forum.bbs.vo.BoardVO;
+import com.hello.forum.bbs.vo.SearchBoardVO;
 import com.hello.forum.beans.FileHandler;
 import com.hello.forum.exceptions.MakeXlsxFileException;
 import com.hello.forum.exceptions.PageNotFoundException;
@@ -58,17 +59,26 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-	@GetMapping("/board/list")
-	public String viewBoardListPage(Model model) {
+//	@GetMapping("/board/list")
+//	public String viewBoardListPage(Model model) {
+//		
+//		// 1. 게시글의 건수와 게시글의 목록을 조회해서
+//		BoardListVO boardListVO = this.boardService.getAllBoard();
+//		
+//		// 2. /WEB-INF/views/board/boardlist.jsp 페이지에 게시글의 건수와 게시글의 목록을 전달하고
+//		model.addAttribute("boardList",boardListVO);
+//		
+//		// 3. 화면에 보여준다. 
+//		
+//		return "board/boardlist";
+//	}
+	
+	@GetMapping("/board/search")
+	public String viewBoardListPage(Model model, SearchBoardVO searchBoardVO) {
 		
-		// 1. 게시글의 건수와 게시글의 목록을 조회해서
-		BoardListVO boardListVO = this.boardService.getAllBoard();
-		
-		// 2. /WEB-INF/views/board/boardlist.jsp 페이지에 게시글의 건수와 게시글의 목록을 전달하고
+		BoardListVO boardListVO = this.boardService.searchAllBoard(searchBoardVO);
 		model.addAttribute("boardList",boardListVO);
-		
-		// 3. 화면에 보여준다. 
-		
+		model.addAttribute("searchBoardVO", searchBoardVO);
 		return "board/boardlist";
 	}
 	
@@ -181,7 +191,7 @@ public class BoardController {
 		// 명령을 받은 브라우저는 /board/list 로 URL을 이동시킨다.
 		// /board/list 로 브라우저가 요청을 하게되면.
 		// 스프링 컨트롤러에서 /board/list URL 에 알맞은 처리를 진행한다.
-		return "redirect:/board/list";
+		return "redirect:/board/search";
 	}
 	
 	// browser 에서 URL을 http://localhost:8080/board/view?id=1 <-- 나쁘지 않은 방법.
@@ -311,7 +321,7 @@ public class BoardController {
 			logger.info("게시글 삭제 실패.");
 		}
 		
-		return "redirect:/board/list";
+		return "redirect:/board/search";
 	}
 	
 	@GetMapping("/board/file/download/{id}")
@@ -445,6 +455,6 @@ public class BoardController {
 		
 		boolean isSuccess = this.boardService.createMassiveBoard2(excelFile);
 		
-		return new AjaxResponse().append("result", isSuccess).append("next", "/board/list");
+		return new AjaxResponse().append("result", isSuccess).append("next", "/board/search");
 	}
 }

@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.hello.forum.bbs.vo.BoardListVO;
 import com.hello.forum.bbs.vo.BoardVO;
+import com.hello.forum.bbs.vo.SearchBoardVO;
 
 public interface BoardService {
 
@@ -13,6 +14,9 @@ public interface BoardService {
 	 */
 	public BoardListVO getAllBoard();
 
+
+	public BoardListVO searchAllBoard(SearchBoardVO searchBoardVO);
+	
 	/**
 	 * 새로운 게시글을 등록한다.
 	 * @param boardVO 사용자가 입력한 게시글의 내용

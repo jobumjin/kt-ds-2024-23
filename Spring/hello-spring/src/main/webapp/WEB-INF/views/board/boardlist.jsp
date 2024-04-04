@@ -10,7 +10,7 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
       div.grid {
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 28px 28px 1fr 28px;
+        grid-template-rows: 28px 28px 1fr 28px 28px;
         row-gap: 10px;
       }
     </style>
@@ -87,6 +87,27 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
           </c:choose>
         </tbody>
       </table>
+
+      <!-- Paginator 시작 -->
+      <div>
+        <div>
+          <ul class="page-nav">
+            <c:forEach
+              begin="1"
+              end="${searchBoardVO.pageCount}"
+              step="1"
+              var="p"
+            >
+              <li class="${searchBoardVO.pageNo eq p-1 ? 'active' : ''}">
+                <a href="/board/search?pageNo=${p-1}&listSize=10">${p}</a>
+              </li>
+            </c:forEach>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Paginator 끝 -->
+
       <c:if test="${not empty sessionScope._LOGIN_USER_}">
         <div class="right-align">
           <a href="/board/excel/download2">엑셀 다운로드</a>
