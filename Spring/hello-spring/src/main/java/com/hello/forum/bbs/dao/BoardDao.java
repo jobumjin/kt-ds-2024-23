@@ -16,6 +16,9 @@ public interface BoardDao {
 	 */
 	public int getBoardAllCount();
 	
+	public int searchBoardAllCount(SearchBoardVO searchBoardVO);
+	
+	
 	/**
 	 * DB에 저장된 모든 게시글의 목록을 조회한다.
 	 * (SELECT * FROM BOARD WHERE DEL_YN = 'N';)

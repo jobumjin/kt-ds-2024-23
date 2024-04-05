@@ -42,6 +42,35 @@
 		   AND M.DEL_YN = 'N'
 	</select>
 	
+	<select id="searchBoardAllCount" 
+			parameterType="com.hello.forum.bbs.vo.SearchBoardVO" 
+			resultType="_int">
+		SELECT COUNT(1) 
+		  FROM BOARD B
+		 INNER JOIN MEMBERS M
+		    ON M.EMAIL = B.EMAIL
+		 WHERE B.DEL_YN = 'N'
+		   AND M.DEL_YN = 'N'
+		<if test='searchKeyword != null and searchKeyword != ""'>
+			<choose>
+				<when test='searchType == "title"'>
+		   AND B.SUBJECT LIKE '%' || #{searchKeyword} || '%'
+				</when>
+				<when test='searchType == "content"'>
+		   AND B.CONTENT LIKE '%' || #{searchKeyword} || '%'
+				</when>
+				<when test='searchType == "title-content"'>
+		   AND (B.SUBJECT LIKE '%' || #{searchKeyword} || '%'
+		    OR B.CONTENT LIKE '%' || #{searchKeyword} || '%')
+				</when>
+				<when test='searchType == "email"'>
+		   AND B.EMAIL LIKE '%' || #{searchKeyword} || '%'
+				</when>
+			</choose>
+		</if>
+	</select>
+	
+	
 	<select id="getAllBoard" resultMap="boardVOMap">
 		SELECT B.ID
 		 	 , B.SUBJECT
@@ -62,7 +91,9 @@
 		 ORDER BY B.ID DESC
 	</select>
 	
-	<select id="searchAllBoard" parameterType = "com.hello.forum.bbs.vo.SearchBoardVO" resultMap="boardVOMap">
+	<select id="searchAllBoard" 
+			parameterType = "com.hello.forum.bbs.vo.SearchBoardVO" 
+			resultMap="boardVOMap">
 		<include refid="Common.pagenate_header" />
 		SELECT B.ID
 		 	 , B.SUBJECT
@@ -80,6 +111,23 @@
 		    ON M.EMAIL = B.EMAIL
 		 WHERE B.DEL_YN = 'N'
 		   AND M.DEL_YN = 'N'
+		<if test='searchKeyword != null and searchKeyword != ""'>
+			<choose>
+				<when test='searchType == "title"'>
+		   AND B.SUBJECT LIKE '%' || #{searchKeyword} || '%'
+				</when>
+				<when test='searchType == "content"'>
+		   AND B.CONTENT LIKE '%' || #{searchKeyword} || '%'
+				</when>
+				<when test='searchType == "title-content"'>
+		   AND (B.SUBJECT LIKE '%' || #{searchKeyword} || '%'
+		    OR B.CONTENT LIKE '%' || #{searchKeyword} || '%')
+				</when>
+				<when test='searchType == "email"'>
+		   AND B.EMAIL LIKE '%' || #{searchKeyword} || '%'
+				</when>
+			</choose>
+		</if>
 		 ORDER BY B.ID DESC
 		<include refid="Common.pagenate_footer" />
 	</select>

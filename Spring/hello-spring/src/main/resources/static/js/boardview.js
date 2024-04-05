@@ -1,4 +1,16 @@
 $().ready(function () {
+  $(document).on("scroll", function () {
+    var scrollHeight = $(window).scrollTop();
+    var documentHeight = $(document).height();
+    var browserHeight = $(window).height();
+    var scrollBottomPoint = scrollHeight + browserHeight + 30;
+
+    var willFetchReply = scrollBottomPoint > documentHeight;
+    if (willFetchReply) {
+      console.log("댓글을 10개만 더 불러옵니다.");
+    }
+  });
+
   $(".delete-board").on("click", function () {
     var chooseValue = confirm(
       "이 게시글을 정말 삭제하시겠습니까?\n삭제작업은 복구할 수 없습니다."
@@ -79,10 +91,17 @@ $().ready(function () {
     });
   };
 
-  var loadReplies = function (boardId) {
-    $(".reply-items").html("");
+  var loadReplies = function (boardId, pageNo) {
+    var isNotUndefindPageNo = pageNo !== undefined;
+    var params = { pageNo: -1 };
+    if (isNotUndefindPageNo) {
+      params.pageNo = pageNo;
+    }
 
-    $.get("/ajax/board/reply/" + boardId, function (response) {
+    $.get("/ajax/board/reply/" + boardId, params, function (response) {
+      if (isNotUndefindPageNo) {
+        $(".reply-items").html("");
+      }
       var count = response.data.count;
       var replies = response.data.replies;
 
@@ -194,7 +213,11 @@ $().ready(function () {
   };
 
   var boardId = $(".grid").data("id");
-  loadReplies(boardId);
+  loadReplies(boardId, 0);
+
+  $("#get-all-replies-btn").on("click", function () {
+    loadReplies(boardId);
+  });
 
   $("#btn-save-reply").on("click", function () {
     var reply = $("#txt-reply").val();
