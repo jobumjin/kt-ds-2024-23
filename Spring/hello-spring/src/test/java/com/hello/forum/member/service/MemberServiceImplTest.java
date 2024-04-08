@@ -172,10 +172,13 @@ public class MemberServiceImplTest {
 		
 		// 1. given
 		BDDMockito.given(this.memberDao.selectSalt("user01@gmail.com")).willReturn("abcdefg");
-		BDDMockito.given(this.memberDao.selectMemberByEmailAndPassword(memberVO)).willReturn(null);
+		BDDMockito
+		.given(this.memberDao.selectMemberByEmailAndPassword(memberVO))
+		.willReturn(null);
 
 		// 2. when
-		UserIdendifyNotMatchException exception = Assertions.assertThrows(UserIdendifyNotMatchException.class, () -> this.memberService.getMember(memberVO));
+		UserIdendifyNotMatchException exception = 
+				Assertions.assertThrows(UserIdendifyNotMatchException.class, () -> this.memberService.getMember(memberVO));
 		
 		// 3. then
 		Assertions.assertNotNull(exception);
