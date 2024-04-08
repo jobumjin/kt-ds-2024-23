@@ -15,26 +15,6 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
       }
     </style>
     <script type="text/javascript" src="/js/boardview.js"></script>
-    <!-- <script type="text/javascript">
-      // 페이지 랜더링이 모두 끝났을 때
-      window.onload = function () {
-        // 삭제 링크를 클릭하면
-        var deleteAnchor = document.querySelector(".delete-board");
-        deleteAnchor.addEventListener("click", function () {
-          // 사용자에게 진짜 삭제를 할 것이냐 물어보고
-          var chooseValue = confirm(
-            "이 게시글을 정말 삭제하시겠습니까?\n삭제작업은 복구할 수 없습니다."
-          );
-          // chooseValue 가 true 라면 "확인" 을 클릭
-          // chooseValue 가 false 라면 "취소" 를 클릭
-          // 삭제를 하려한다면 삭제처리 해줄 것이고
-          // 그렇지 않다면 아무일도 하지 않아야 한다.
-          if (chooseValue) {
-            location.href = "/board/delete/${boardVO.id}";
-          }
-        });
-      };
-    </script> -->
   </head>
   <body>
     <jsp:include page="../member/membermenu.jsp"></jsp:include>
@@ -75,20 +55,20 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
         <div class="write-reply">
           <textarea id="txt-reply"></textarea>
           <button id="btn-save-reply">등록</button>
-          <button id="btn-cancle-reply">취소</button>
+          <button id="btn-cancel-reply">취소</button>
         </div>
       </div>
 
-      <!-- 
-              javascript:void(0);
-              주로 anchor 태그의 href에 작성하는 코드
-              링크를 클릭했을 때, javascript를 이용해서 처리할 경우 위처럼 작성을 한다.
-              javascript:void(0); 이 코드는 anchor 태그의 링크 이동을 무시한다.
-      -->
       <c:if test="${sessionScope._LOGIN_USER_.email eq boardVO.email}">
         <div class="btn-group">
           <div class="right-align">
             <a href="/board/modify/${boardVO.id}">수정</a>
+            <!--
+            javascript:void(0);
+            주로 anchor 태그의 href에 작성하는 코드.
+            링크를 클릭했을 때, javascript를 이용해서 처리할 경우 위 처럼 작성을 한다.
+            javascript:void(0); 이 코드는 anchor 태그의 링크 이동을 무시한다.
+          -->
             <a class="delete-board" href="javascript:void(0);">삭제</a>
           </div>
         </div>

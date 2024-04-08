@@ -16,14 +16,6 @@ public class ReplyVO {
 	private String delYn;
 
 	private MemberVO memberVO;
-	
-	public MemberVO getMemberVO() {
-		return memberVO;
-	}
-
-	public void setMemberVO(MemberVO memberVO) {
-		this.memberVO = memberVO;
-	}
 
 	public int getLevel() {
 		return level;
@@ -103,6 +95,14 @@ public class ReplyVO {
 
 	public void setDelYn(String delYn) {
 		this.delYn = delYn;
+	}
+
+	public MemberVO getMemberVO() {
+		return memberVO;
+	}
+
+	public void setMemberVO(MemberVO memberVO) {
+		this.memberVO = memberVO;
 	}
 
 }

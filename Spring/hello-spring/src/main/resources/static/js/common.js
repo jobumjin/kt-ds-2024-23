@@ -1,3 +1,33 @@
+$(document).on("ajaxStart", function () {
+  var blockBoard = $("<div></div>");
+  blockBoard.addClass("process-ajax");
+  blockBoard.css({
+    display: "flex",
+    "justify-content": "center",
+    "align-items": "center",
+    "background-color": "#0003",
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  });
+
+  var img = $("<img />");
+  img.attr("src", "https://harrykim14.github.io/images/loadinganimation.gif");
+  img.css({
+    width: "70%",
+    height: "70%",
+  });
+  blockBoard.append(img);
+
+  $("body").prepend(blockBoard);
+});
+
+$(document).on("ajaxComplete", function () {
+  $(".process-ajax").remove();
+});
+
 $().ready(function () {
   $("a.deleteMe").on("click", function () {
     $.get("/ajax/member/delete-me", function (response) {
@@ -5,6 +35,7 @@ $().ready(function () {
       location.href = next;
     });
   });
+
   /*
    * 엔터키 눌렀을 때 form 전송안되도록 수정.
    * input의 data-submit 값이 true가 아닌 경우, 엔터키입력시 전송 안되도록 방지.
@@ -23,7 +54,7 @@ $().ready(function () {
 
 function search(pageNo) {
   var searchForm = $("#search-form");
-  // var listSize = $("#list-size");
+  //var listSize = $("#list-size");
   $("#page-no").val(pageNo);
 
   searchForm.attr("method", "get").submit();
