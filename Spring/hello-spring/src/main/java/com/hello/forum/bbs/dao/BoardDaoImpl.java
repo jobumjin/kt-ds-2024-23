@@ -34,7 +34,6 @@ public class BoardDaoImpl extends SqlSessionDaoSupport implements BoardDao {
 	@Autowired
 	@Override
 	public void setSqlSessionTemplate(SqlSessionTemplate sqlSessionTemplate) {
-		// 	TODO Auto-generated method stub
 		super.setSqlSessionTemplate(sqlSessionTemplate);
 	}
 	

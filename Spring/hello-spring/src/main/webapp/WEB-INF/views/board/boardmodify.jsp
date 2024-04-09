@@ -29,7 +29,7 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
         <h1>${errorMessage}</h1>
       </dialog>
     </c:if>
-    <jsp:include page="../member/membermenu.jsp"></jsp:include>
+    <jsp:include page="../layout/layout.jsp" />
     <h1>게시글 수정</h1>
     <form
       action="/board/modify/${boardVO.id}"
@@ -63,5 +63,6 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
         </div>
       </div>
     </form>
+    <jsp:include page="../layout/layout_close.jsp" />
   </body>
 </html>

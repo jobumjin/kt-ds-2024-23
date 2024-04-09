@@ -10,15 +10,15 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
       div.grid {
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 28px 28px 1fr 28px 28px;
+        grid-template-rows: 28px 1fr 28px 28px;
         row-gap: 10px;
       }
     </style>
     <script type="text/javascript" src="/js/boardlist.js"></script>
   </head>
   <body>
+    <jsp:include page="../layout/layout.jsp" />
     <div class="grid">
-      <jsp:include page="../member/membermenu.jsp"></jsp:include>
       <div class="right-align">
         총 ${boardList.boardCnt} 건의 게시글이 검색되었습니다.
       </div>

@@ -29,6 +29,49 @@ $(document).on("ajaxComplete", function () {
 });
 
 $().ready(function () {
+  var aside = $("#aside");
+
+  if (aside && aside.length > 0) {
+    $.get("/ajax/menu/list", function (response) {
+      var menuList = response.data.menu;
+
+      var menuListDom = $("<ul></ul>");
+      menuListDom.css({ "list-style-type": "none", padding: 0 });
+
+      for (var i in menuList) {
+        var menu = menuList[i];
+
+        var menuId = menu.menuId;
+        var parentMenuId = menu.parentMenuId;
+        var menuUrl = menu.menuUrl;
+
+        var menuDom = $("<li></li>");
+        menuDom.data("menu-id", menuId);
+        menuDom.css({ "font-weight": "bold", cursor: "pointer" });
+        menuDom.data("url", menuUrl);
+        menuDom.data("parent-menu-id", parentMenuId);
+
+        if (parentMenuId) {
+          menuDom.css({
+            "font-weight": "normal",
+            "padding-left": "1rem",
+          });
+        }
+
+        menuDom.text(menu.menuName);
+
+        menuDom.on("click", function () {
+          var url = $(this).data("url");
+          if (url) {
+            location.href = url;
+          }
+        });
+        menuListDom.append(menuDom);
+      }
+      aside.append(menuListDom);
+    });
+  }
+
   $("#checked-all").on("change", function () {
     var targetClass = $(this).data("target-class");
 
