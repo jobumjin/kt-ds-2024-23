@@ -186,4 +186,5 @@ public class MemberController {
 		
 		return "member/" +result +"deleteme";
 	}
+	
 }
