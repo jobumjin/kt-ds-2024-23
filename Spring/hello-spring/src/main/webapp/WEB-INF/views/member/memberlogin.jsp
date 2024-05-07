@@ -5,7 +5,7 @@ pageEncoding="UTF-8"%>
   <head>
     <meta charset="UTF-8" />
     <title>로그인</title>
-    <jsp:include page="../commonheader.jsp"></jsp:include>
+    <jsp:include page="../commonheader.jsp" />
     <style type="text/css">
       div.grid {
         display: grid;
@@ -33,6 +33,9 @@ pageEncoding="UTF-8"%>
   </head>
   <body>
     <h1>로그인</h1>
+
+    <div>${message}</div>
+
     <form id="loginForm">
       <input type="hidden" name="nextUrl" id="nextUrl" value="${nextUrl}" />
       <div class="grid">

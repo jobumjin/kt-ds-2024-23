@@ -51,7 +51,7 @@ public class GlobalExceptionHandler {
 	}
 	
 	@ExceptionHandler({FileNotExistsException.class, MakeXlsxFileException.class,
-		AlreadyUserException.class, UserIdendifyNotMatchException.class, RuntimeException.class} )
+		AlreadyUserException.class, RuntimeException.class} )
 	public Object viewErrorPage(RuntimeException re, Model model) {
 		re.printStackTrace();
 		HttpServletRequest request = RequestUtil.getRequest();

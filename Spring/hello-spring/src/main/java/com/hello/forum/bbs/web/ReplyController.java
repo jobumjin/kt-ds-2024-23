@@ -3,6 +3,7 @@ package com.hello.forum.bbs.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,9 +43,9 @@ public class ReplyController {
 	@PostMapping("/ajax/board/reply/{boardId}")
 	public AjaxResponse doCreateNewReplies(@PathVariable int boardId,
 			@ModelAttribute ReplyVO replyVO,
-			@SessionAttribute("_LOGIN_USER_") MemberVO memberVO) {
+			Authentication authentication) {
 		
-		replyVO.setEmail(memberVO.getEmail());
+		replyVO.setEmail(authentication.getName());
 		boolean isSuccess = replyService.createNewReply(replyVO);
 //		Map<String, Object> resultMap = new HashMap<>();
 //		resultMap.put("result", isSuccess);
@@ -54,9 +55,9 @@ public class ReplyController {
 	
 	@GetMapping("/ajax/board/reply/delete/{replyId}")
 	public AjaxResponse doDeleteReplies(@PathVariable int replyId,
-			@SessionAttribute("_LOGIN_USER_") MemberVO memberVO) {
+			Authentication authentication) {
 		
-		boolean isSuccess = replyService.deleteOneReply(replyId, memberVO.getEmail());
+		boolean isSuccess = replyService.deleteOneReply(replyId, authentication.getName());
 //		Map<String, Object> resultMap = new HashMap<>();
 //		resultMap.put("result", isSuccess);
 //		return resultMap;
@@ -66,9 +67,9 @@ public class ReplyController {
 	@PostMapping("/ajax/board/reply/modify/{replyId}")
 	public AjaxResponse doModifyReplies(@PathVariable int replyId,
 			@ModelAttribute ReplyVO replyVO,
-			@SessionAttribute("_LOGIN_USER_") MemberVO memberVO){
+			Authentication authentication){
 		replyVO.setReplyId(replyId);
-		replyVO.setEmail(memberVO.getEmail());
+		replyVO.setEmail(authentication.getName());
 		
 		boolean isSuccess = replyService.modifyOneReply(replyVO);
 //		Map<String, Object> resultMap = new HashMap<>();
@@ -79,8 +80,8 @@ public class ReplyController {
 	
 	@GetMapping("/ajax/board/reply/recommend/{replyId}")
 	public AjaxResponse doRecommendReplies(@PathVariable int replyId,
-			@SessionAttribute("_LOGIN_USER_") MemberVO memberVO){
-		boolean isSuccess = replyService.recommendOneReply(replyId, memberVO.getEmail());
+			Authentication authentication){
+		boolean isSuccess = replyService.recommendOneReply(replyId, authentication.getName());
 //		Map<String, Object> resultMap = new HashMap<>();
 //		resultMap.put("result", isSuccess);
 //		return resultMap;

@@ -1,12 +1,14 @@
 package com.hello.forum.member.web;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,9 +23,9 @@ import com.hello.forum.member.vo.MemberVO;
 import com.hello.forum.utils.AjaxResponse;
 import com.hello.forum.utils.StringUtils;
 import com.hello.forum.utils.ValidationUtils;
-import com.hello.forum.utils.Validator;
-import com.hello.forum.utils.Validator.Type;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -128,51 +130,59 @@ public class MemberController {
 		return "member/memberlogin";
 	}
 	
-	@ResponseBody
-	@PostMapping("/ajax/member/login")
-	public AjaxResponse doLogin(MemberVO memberVO, HttpSession session, @RequestParam(defaultValue = "/board/search") String nextUrl) {
-		
-		logger.info("nextUrl: " + nextUrl);
-		// Validation Check(파라미터 유효성 검사)
-		Validator<MemberVO> validator = new Validator<>(memberVO);
-		validator.add("email", Type.NOT_EMPTY, "이메일을 입력해주세요.")
-		         .add("email", Type.EMAIL, "이메일 형식이 아닙니다.")
-		         .add("password", Type.NOT_EMPTY, "비밀번호를 입력해주세요.").start();
-		
-		if(validator.hasErrors()) {
-			Map<String, List<String>> errors = validator.getErrors();
-			return new AjaxResponse().append("errors", errors);
-		}
-		
-		
-//		try {
-			MemberVO member = this.memberService.getMember(memberVO);
-			// 로그인이 정상적으로 이루어졋다면 세션을 생성한다.
-			session.setAttribute("_LOGIN_USER_", member);
-			session.setMaxInactiveInterval(0);
-//		} catch (IllegalArgumentException iae) {
-			// 로그인에 실패했다면 화면으로 실패사유를 보내준다.
-//			return new AjaxResponse().append("errorMessage", iae.getMessage());
+//	@ResponseBody
+//	@PostMapping("/ajax/member/login")
+//	public AjaxResponse doLogin(MemberVO memberVO, HttpSession session, @RequestParam(defaultValue = "/board/search") String nextUrl) {
+//		
+//		logger.info("nextUrl: " + nextUrl);
+//		// Validation Check(파라미터 유효성 검사)
+//		Validator<MemberVO> validator = new Validator<>(memberVO);
+//		validator.add("email", Type.NOT_EMPTY, "이메일을 입력해주세요.")
+//		         .add("email", Type.EMAIL, "이메일 형식이 아닙니다.")
+//		         .add("password", Type.NOT_EMPTY, "비밀번호를 입력해주세요.").start();
+//		
+//		if(validator.hasErrors()) {
+//			Map<String, List<String>> errors = validator.getErrors();
+//			return new AjaxResponse().append("errors", errors);
 //		}
-		
-		return new AjaxResponse().append("next", nextUrl);
-	}
+//		
+//		
+////		try {
+//			MemberVO member = this.memberService.getMember(memberVO);
+//			// 로그인이 정상적으로 이루어졋다면 세션을 생성한다.
+//			session.setAttribute("_LOGIN_USER_", member);
+//			session.setMaxInactiveInterval(0);
+////		} catch (IllegalArgumentException iae) {
+//			// 로그인에 실패했다면 화면으로 실패사유를 보내준다.
+////			return new AjaxResponse().append("errorMessage", iae.getMessage());
+////		}
+//		
+//		return new AjaxResponse().append("next", nextUrl);
+//	}
 	
 	@GetMapping("/member/logout")
-	public String doLogout(HttpSession session) {
-		// Logout 처리
-		// sessionID로 전달된 세션의 모든 정보를 삭제
-		session.invalidate();
+	public String doLogout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+		
+		// Spring Security Logout!
+		LogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+		logoutHandler.logout(request, response, authentication);
+		
 		return "redirect:/board/search";
 	}
 	
 	@ResponseBody
 	@GetMapping("/ajax/member/delete-me")
-	public AjaxResponse doDeleteMe(HttpSession session, @SessionAttribute("_LOGIN_USER_") MemberVO memberVO) {
+	public AjaxResponse doDeleteMe(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		
 		// 현재 로그인되어있는 사용자의 정보
 //		MemberVO memberVO = (MemberVO) session.getAttribute("_LOGIN_USER_");
-		boolean isSuccess = this.memberService.deleteMe(memberVO.getEmail());
+		boolean isSuccess = this.memberService.deleteMe(authentication.getName());
+		
+		if(isSuccess) {
+			// Spring Security Logout!
+			LogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+			logoutHandler.logout(request, response, authentication);
+		}
 		
 		return new AjaxResponse().append("next", isSuccess ? "/member/success-delete-me" : "/member/fail-delete-me");
 	}

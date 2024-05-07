@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -39,37 +38,5 @@ public class WebConfig implements WebMvcConfigurer{
 				.addResourceLocations("classpath:/static/css/");
 	}
 	
-	/*
-	 * 인텁세터 등록
-	 */
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		// 세션 체크를 하지 않을 URL 패턴 정의 (그냥 들어갈 수 있는것들..)
-//		List<String> excludePattern = new ArrayList<>();
-//		excludePattern.add("/member/regist/**");
-//		excludePattern.add("/member/login");
-//		excludePattern.add("/board/list");
-//		excludePattern.add("/js/**");
-//		excludePattern.add("/css/**");
-//		excludePattern.add("/error/**");
-	
-		// 인터셉터 등록하기.
-		registry.addInterceptor(new CheckSessionInterceptor())
-				.addPathPatterns(authCheckUrlPattern)
-				.excludePathPatterns(authCheckIgnoreUrlPatterns);
-		
-		registry.addInterceptor(new BlockDuplicateLoginInterceptor())
-				.addPathPatterns("/ajax/member/login","/member/login",
-						"/ajax/member/regist","/member/regist");
-	}
-	
-	
-	// Filter 등록
-//	@Bean
-//	FilterRegistrationBean<Filter> filter() {
-//		FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
-//		filterRegistrationBean.setFilter(new SessionFilter());
-//		filterRegistrationBean.setUrlPatterns(List.of("/board/write","/board/modify/*","/board/delete/*"));
-//		return filterRegistrationBean;
-//	}
+
 }

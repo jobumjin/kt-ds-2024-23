@@ -6,10 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hello.forum.beans.SHA;
 import com.hello.forum.exceptions.AlreadyUserException;
-import com.hello.forum.exceptions.UserIdendifyNotMatchException;
 import com.hello.forum.member.dao.MemberDao;
 import com.hello.forum.member.vo.MemberVO;
-import com.hello.forum.utils.StringUtils;
 
 @Service
 public class MemberServiceImpl implements MemberService {
@@ -44,27 +42,7 @@ public class MemberServiceImpl implements MemberService {
 		return this.memberDao.getEmailCount(email) == 0;
 	}
 
-	@Override
-	public MemberVO getMember(MemberVO memberVO) {
-		// 1. 이메일로 저장되어있는 salt 를 조회한다.
-		String storedSalt = this.memberDao.selectSalt(memberVO.getEmail());
-		// 만약 salt 값이 null 이라면 회원정보가 없는 것이므로 사용자에게 예외를 전달한다.
-		if(StringUtils.isEmpty(storedSalt)) {
-			throw new UserIdendifyNotMatchException();
-		}
-		// 2. salt 값이 있을 경우 salt 를 이용해 SHA 암호화 한다.
-		String password = memberVO.getPassword();
-		password = this.sha.getEncrypt(password, storedSalt);
-		memberVO.setPassword(password);
-		// 3. DB에서 암호화된 비밀번호와 이메일을 비교해 회원정보를 가져온다.
-		MemberVO member = this.memberDao.selectMemberByEmailAndPassword(memberVO);
-		// 만약 회원정보가 null 이라면 회원 정보가 없는 것이므로사용자에게 예외를 전달한다.
-		if(member == null) {
-			throw new UserIdendifyNotMatchException();
-		} 
-		return member;
-	}
-
+	
 	@Transactional
 	@Override
 	public boolean deleteMe(String email) {
