@@ -57,6 +57,7 @@ public class ReplyController {
 	public AjaxResponse doDeleteReplies(@PathVariable int replyId,
 			Authentication authentication) {
 		
+		
 		boolean isSuccess = replyService.deleteOneReply(replyId, authentication.getName());
 //		Map<String, Object> resultMap = new HashMap<>();
 //		resultMap.put("result", isSuccess);

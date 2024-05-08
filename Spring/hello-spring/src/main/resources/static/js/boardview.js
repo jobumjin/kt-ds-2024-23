@@ -207,10 +207,12 @@ $().ready(function () {
           replyDom.append(contentDom);
 
           var loginEmail = $("#login-email").text();
+          var roleAdmin = $("#role-admin");
+          var isAdmin = roleAdmin && roleAdmin.length > 0;
           // <div>
           var controlDom = $("<div></div>");
 
-          if (reply.email === loginEmail) {
+          if (reply.email === loginEmail || isAdmin) {
             // <span class="modify-reply">수정</span>
             var modifyReplyDom = $("<span></span>");
             modifyReplyDom.addClass("modify-reply");

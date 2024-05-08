@@ -82,7 +82,7 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider{
 		}
 		// 같다면, UsernamePasswordAuthenticationToken을 반환.
 		// Security Context 에 인증 정보를 저장.
-		return new UsernamePasswordAuthenticationToken(email, password, userDetails.getAuthorities());
+		return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
 	}
 
 	/**

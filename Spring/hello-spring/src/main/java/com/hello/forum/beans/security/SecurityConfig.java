@@ -5,9 +5,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.hello.forum.beans.security.handler.LoginFailureHandler;
 import com.hello.forum.beans.security.handler.LoginSuccessHandler;
@@ -49,6 +51,28 @@ public class SecurityConfig {
 	}
 	
 	/**
+	 * <pre>
+	 * Spring Security 가 절대 개입하지 말아야 하는 URL들을 정의.
+	 * 아래 URL에서 보여지는 페이지 내부에서는 Security Taglib 을 사용할 수 없다.
+	 * ignoring 은 Security가 절대 개입하지 않기 때문이다. 
+	 * </pre>
+	 * @return
+	 */
+	@Bean
+	WebSecurityCustomizer webSecurityCustomizer() {
+		return (web) -> web.ignoring()
+				           .requestMatchers(AntPathRequestMatcher.antMatcher("/WEB-INF/views/**"))
+				           .requestMatchers(AntPathRequestMatcher.antMatcher("/member/login"))
+				           .requestMatchers(AntPathRequestMatcher.antMatcher("/member/regist/**"))
+				           .requestMatchers(AntPathRequestMatcher.antMatcher("/error/**"))
+				           .requestMatchers(AntPathRequestMatcher.antMatcher("/favicon.ico"))
+				           .requestMatchers(AntPathRequestMatcher.antMatcher("/member/**-delete-me"))
+				           .requestMatchers(AntPathRequestMatcher.antMatcher("/js/**"))
+				           .requestMatchers(AntPathRequestMatcher.antMatcher("/css/**"))
+				           ;
+	}
+	
+	/**
 	 * Spring Security Filter 가 돛작해야할 방식(순서)를 정의 
 	 * @param http HttpSecurity 필터 전략
 	 * @return SpringSecurityFilterChain Spring Security 가 동작해야할 순서
@@ -57,11 +81,28 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		
+		http.authorizeHttpRequests(httpRequest ->
+			// /board/search 는 인증 여부와 관계없이 모두 접근이 가능하다.
+			httpRequest.requestMatchers(AntPathRequestMatcher.antMatcher("/board/search"))
+			           .permitAll()
+			           .requestMatchers(AntPathRequestMatcher.antMatcher("/ajax/menu/list"))
+			           .permitAll()
+			           .requestMatchers(AntPathRequestMatcher.antMatcher("/ajax/excel/download2"))
+			           .hasRole("ADMIN")
+			           .requestMatchers(AntPathRequestMatcher.antMatcher("/ajax/board/delete/massive"))
+			           .hasRole("ADMIN")
+			           .requestMatchers(AntPathRequestMatcher.antMatcher("/ajax/board/excel/write"))
+			           .hasRole("ADMIN")
+			           // 그 외 모든 URL은 인증이 필요하다.
+			           .anyRequest()
+			           .authenticated());
+		
 		// 로그인(필터) 정책 설정.
 		
 		// 우리 애플리케이션은 Form 기반으로 로그인을 하며
 		// 로그인이 완료되면 /board/search 로 이동을 해야한다.
 		http.formLogin(formLogin -> formLogin
+				
 				// Spring Security 인증이 성공할 경우 LoginSuccessHandler가 동작되도록 설정.
 				 .successHandler(new LoginSuccessHandler())
 				// Spring Security 인증이 실패할 경우 LoginFailureHandler가 동작되도록 설정.

@@ -59,10 +59,21 @@ public class SecurityUser implements UserDetails{
 		// 원래는 C/R/U/D 에 대한 권한 정보를 DB에서 관리를 해야하며
 		// DB에서 조회된 데이터를 만들어 주어야 한다.
 		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-		authorities.add( new SimpleGrantedAuthority("CREATE"));
-		authorities.add( new SimpleGrantedAuthority("READ"));
-		authorities.add( new SimpleGrantedAuthority("UPDATE"));
-		authorities.add( new SimpleGrantedAuthority("DELETE"));
+//		authorities.add( new SimpleGrantedAuthority("CREATE"));
+//		authorities.add( new SimpleGrantedAuthority("READ"));
+//		authorities.add( new SimpleGrantedAuthority("UPDATE"));
+//		authorities.add( new SimpleGrantedAuthority("DELETE"));
+		/**
+		 * memberVO.getAdminYn() == Y ==> ROLE_ADMIN
+		 * memberVO.getAdminYn() == N ==> ROLE_USER
+		 */
+		String role = "ROLE_USER";
+		if(this.memberVO.getAdminYn().equals("Y")) {
+			role = "ROLE_ADMIN";
+		}
+		
+		authorities.add(new SimpleGrantedAuthority(role));
+		
 		return authorities;
 	}
 
