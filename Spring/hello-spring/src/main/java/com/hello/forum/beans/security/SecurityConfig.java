@@ -9,10 +9,12 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.hello.forum.beans.security.handler.LoginFailureHandler;
 import com.hello.forum.beans.security.handler.LoginSuccessHandler;
+import com.hello.forum.beans.security.jwt.JwtAuthenticationFilter;
 import com.hello.forum.member.dao.MemberDao;
 
 /**
@@ -29,6 +31,9 @@ public class SecurityConfig {
 
 	@Autowired
 	private MemberDao memberDao;
+	
+	@Autowired
+	private JwtAuthenticationFilter jwtAuthenticationFilter;
 	
 	/**
 	 * 사용자 세부정보 서비스에 대한 Spring Bean 생성.
@@ -62,8 +67,9 @@ public class SecurityConfig {
 	WebSecurityCustomizer webSecurityCustomizer() {
 		return (web) -> web.ignoring()
 				           .requestMatchers(AntPathRequestMatcher.antMatcher("/WEB-INF/views/**"))
-				           .requestMatchers(AntPathRequestMatcher.antMatcher("/member/login"))
-				           .requestMatchers(AntPathRequestMatcher.antMatcher("/member/regist/**"))
+				           // CSRF 적용을 위해 Security 설정 필요.
+//				           .requestMatchers(AntPathRequestMatcher.antMatcher("/member/login"))
+//				           .requestMatchers(AntPathRequestMatcher.antMatcher("/member/regist/**"))
 				           .requestMatchers(AntPathRequestMatcher.antMatcher("/error/**"))
 				           .requestMatchers(AntPathRequestMatcher.antMatcher("/favicon.ico"))
 				           .requestMatchers(AntPathRequestMatcher.antMatcher("/member/**-delete-me"))
@@ -86,6 +92,15 @@ public class SecurityConfig {
 			httpRequest.requestMatchers(AntPathRequestMatcher.antMatcher("/board/search"))
 			           .permitAll()
 			           .requestMatchers(AntPathRequestMatcher.antMatcher("/ajax/menu/list"))
+			           .permitAll()
+			           // CSRF 설정을 위해..
+			           .requestMatchers(AntPathRequestMatcher.antMatcher("/member/login"))
+			           .permitAll()
+			           .requestMatchers(AntPathRequestMatcher.antMatcher("/ajax/member/regist/available"))
+			           .permitAll()
+			           .requestMatchers(AntPathRequestMatcher.antMatcher("/member/regist/**"))
+			           .permitAll()
+			           .requestMatchers(AntPathRequestMatcher.antMatcher("/auth/token"))
 			           .permitAll()
 			           .requestMatchers(AntPathRequestMatcher.antMatcher("/ajax/excel/download2"))
 			           .hasRole("ADMIN")
@@ -117,8 +132,12 @@ public class SecurityConfig {
 				// 로그인 PW가 전달될 파라미터 이름
 				 .passwordParameter("password"));
 		
-		// CSRF 무효화.
-		http.csrf(csrf -> csrf.disable());
+		// CSRF 방어로직 무효화.
+//		http.csrf(csrf -> csrf.disable());
+		// /auth/token URL에서는 CSRE 검사를 하지 않음. 화면에 보여주지 않는 URL의 CSRF토큰을 매번 저장해서 보내주기 어려우니.. 이렇게..
+		http.csrf(csrf -> csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/auth/token")));
+		
+		http.addFilterAfter(this.jwtAuthenticationFilter, BasicAuthenticationFilter.class);
 		
 		return http.build();
 	}

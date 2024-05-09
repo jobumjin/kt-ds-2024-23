@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %> <%@
+taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8" />
+    <sec:csrfMetaTags />
     <title>게시글 내용</title>
     <jsp:include page="../commonheader.jsp"></jsp:include>
     <style type="text/css">
@@ -60,9 +61,9 @@ pageEncoding="UTF-8"%> <%@ taglib prefix="c" uri="jakarta.tags.core" %>
         </div>
       </div>
 
-	<!-- 게시글 수정 /삭제를 할 수 있는 사용자는 "관리자" 권한을 가진 사용자와 게시글을 작성한 유저... -->
-      <sec:authentication property="principal.memberVO.email" var="email"/>
-      <sec:authentication property="principal.authorities[0]" var="role"/>
+      <!-- 게시글 수정 /삭제를 할 수 있는 사용자는 "관리자" 권한을 가진 사용자와 게시글을 작성한 유저... -->
+      <sec:authentication property="principal.memberVO.email" var="email" />
+      <sec:authentication property="principal.authorities[0]" var="role" />
       <c:if test="${email eq boardVO.email or role eq 'ROLE_ADMIN'}">
         <div class="btn-group">
           <div class="right-align">

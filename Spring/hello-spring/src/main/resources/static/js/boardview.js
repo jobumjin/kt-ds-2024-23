@@ -312,6 +312,15 @@ $().ready(function () {
     $("#txt-reply").removeData("mode");
     $("#txt-reply").removeData("target");
 
+    // CSRF token을 찾아 body에 넣어준다.
+    // body {content, parentReplyId, _csrf}
+    var csrfParameterName = $("meta[name=_csrf_parameter]").attr("content");
+    var csrfToken = $("meta[name=" + csrfParameterName + "]").attr("content");
+
+    // body["_csrf"] = csrfToken;
+    // body._csrf = csrfToken
+    body[csrfParameterName] = csrfToken;
+    // "http://localhost:9090" +
     $.post(url, body, function (response) {
       var result = response.data.result;
       if (result) {
