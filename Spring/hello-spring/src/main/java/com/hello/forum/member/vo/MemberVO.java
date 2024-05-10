@@ -1,7 +1,7 @@
 package com.hello.forum.member.vo;
 
 public class MemberVO {
-	
+
 	private String email;
 	private String name;
 	private String password;
@@ -9,6 +9,15 @@ public class MemberVO {
 	private String delYn;
 	private String salt;
 	private String adminYn;
+	private String provider;
+
+	public String getProvider() {
+		return provider;
+	}
+
+	public void setProvider(String provider) {
+		this.provider = provider;
+	}
 
 	public String getEmail() {
 		return email;

@@ -28,4 +28,6 @@ public interface MemberDao {
 	 * @return 로그인 이메일과 일치하는 사용자 정보
 	 */
 	public MemberVO getMemberByEmail(String email);
+
+	public int createOrUpdate(MemberVO memberVO);
 }

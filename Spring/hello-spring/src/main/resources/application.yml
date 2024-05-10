@@ -1,5 +1,6 @@
 # JDBC 설정, JSP 경로추가
 spring:
+   
     application.name: hello-spring
     datasource:
         url: jdbc:oracle:thin:@localhost:1521:XE

@@ -45,4 +45,20 @@
 		 WHERE EMAIL = #{_parameter}
 	</select>
 	
+	<update id="createUOrUpdate"
+			parameterType="com.hello.forum.member.vo.MemberVO">
+		MERGE INTO MEMBERS M
+		USING (SELECT 1 FROM DUAL) D
+		   ON (M.EMAIL = #{email})
+		 WHEN MATCHED THEN
+		   UPDATE SET M.PROVIDER = #{provider}
+		 WHEN NOT MATCHED THEN
+		   INSERT (
+		      M.EMAIL, M.NAME, M.PASSWORD
+		    , M.SALT, M.PROVIDER)
+		   VALUES (
+		      #{email}, #{name}, NVL(#{password}, 'OAUTH')
+		    , NVL(#{salt}, 'OAUTH'), #{provider} )
+	</update>
+	
 </mapper>

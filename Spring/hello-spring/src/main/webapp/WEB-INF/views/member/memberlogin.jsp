@@ -52,6 +52,9 @@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
             <button id="btn-login" type="button">로그인</button>
           </div>
         </div>
+        <a href="/oauth2/authorization/naver">Naver Login</a>
+        <a href="/oauth2/authorization/google">Google Login</a>
+        <a href="/oauth2/authorization/github">Github Login</a>
       </div>
     </form>
   </body>

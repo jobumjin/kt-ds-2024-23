@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -15,6 +16,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.hello.forum.beans.security.handler.LoginFailureHandler;
 import com.hello.forum.beans.security.handler.LoginSuccessHandler;
 import com.hello.forum.beans.security.jwt.JwtAuthenticationFilter;
+import com.hello.forum.beans.security.oauth2.OAuthService;
 import com.hello.forum.member.dao.MemberDao;
 
 /**
@@ -35,6 +37,8 @@ public class SecurityConfig {
 	@Autowired
 	private JwtAuthenticationFilter jwtAuthenticationFilter;
 	
+	@Autowired
+	private OAuthService oAuthService;
 	/**
 	 * 사용자 세부정보 서비스에 대한 Spring Bean 생성.
 	 * 
@@ -131,6 +135,12 @@ public class SecurityConfig {
 				 .usernameParameter("email")
 				// 로그인 PW가 전달될 파라미터 이름
 				 .passwordParameter("password"));
+		
+		// OAuth Login 및 후 처리 설정.
+		http.oauth2Login(auth -> auth.defaultSuccessUrl("/board/search",true)
+									 .userInfoEndpoint(user ->
+									 		user.userService(oAuthService))
+									 .loginPage("/member/login"));
 		
 		// CSRF 방어로직 무효화.
 //		http.csrf(csrf -> csrf.disable());
