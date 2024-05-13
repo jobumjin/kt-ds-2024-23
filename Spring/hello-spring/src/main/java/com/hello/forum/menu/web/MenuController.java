@@ -1,7 +1,5 @@
 package com.hello.forum.menu.web;
 
-import static org.hamcrest.CoreMatchers.nullValue;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,7 +8,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.hello.forum.beans.security.SecurityUser;
 import com.hello.forum.member.vo.MemberVO;
