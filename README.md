@@ -7,4 +7,6 @@ Ktds 23기 클라우드 웹 애플리케이션 개발자 양성과정
 📌 DBMS(oracle) : 2024.02.15-2024.03.04  
 📌 Front-End(HTML, CSS, JavaScript) : 2024.03.05-2024.03.18  
 📌 Spring(Web) : 2024.03.19-2024.04.11  
-📌 [1차 프로젝트](https://github.com/jobumjin/ktds-23-pms-project1) : 2024.04.12-2024.04.31   
+📌 [1차 프로젝트](https://github.com/jobumjin/ktds-23-pms-project1) : 2024.04.12-2024.04.31  
+📌 Spring Security : 2024.05.01-2024.05.12  
+📌 React : 2024.05.13-
