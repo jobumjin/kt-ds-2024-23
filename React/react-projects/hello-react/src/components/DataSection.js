@@ -14,6 +14,8 @@
 // }
 
 export function DataSection({ color, onClick, children }) {
+  console.log("Run DataSection");
+
   const sectionStyle = {
     backgroundColor: "#CCC",
     color: color,

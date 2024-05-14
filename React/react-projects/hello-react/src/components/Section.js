@@ -2,7 +2,16 @@
 /**
  * props : {title: "", color:"", onClick: function(){}
  */
-export function Section({ title, color, onClick }) {
+export function Section({ title, color, onKeyUp, onClick }) {
+  // App Component가 관리하는 state가 변경되어
+  // App Component가 재실행이 되고
+  // App Component 하위컴포넌트인 Section Component도 재실행 된다.
+  console.log("Run Section");
+  console.log("Title: ", title);
+  console.log("Color: ", color);
+  console.log("onKeyUp: ", onKeyUp);
+  console.log("onClick: ", onClick);
+
   //export : 컴포넌트를 다른곳에서 쓸수있도록 공개시키는 용도
   // Section 컴포넌트는 하나의 태그를 반환시킴
 
@@ -23,8 +32,15 @@ export function Section({ title, color, onClick }) {
    *  (즉, 문자열이 아니라면 {}로 작성해야한다 = 인터폴레이션)
    */
   return (
-    <section style={sectionStyle} onClick={onClick}>
-      This is {title} Component.
-    </section>
+    <div>
+      <input
+        type="text"
+        placeholder="컴포넌트 이름을 입력하세요."
+        onKeyUp={onKeyUp}
+      />
+      <section style={sectionStyle} onClick={onClick}>
+        This is {title} Component.
+      </section>
+    </div>
   );
 }
