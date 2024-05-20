@@ -4,11 +4,15 @@
  * props: todo = {id:"", task:"", duDate:"", isDone:false}
  *        onDone = function();
  */
-export default function Todo({ todo, onDone }) {
+export default function Todo({ todo, onDone, style }) {
+  console.log("Run Todo");
   const { id, isDone, task, dueDate } = todo;
 
   const styles = {
+    // 우리가 받아온 style의 내용을 가져온다.
+    ...style,
     borderBottom: "1px solid #ccc",
+    // padding 은 overWrite해준다..?
     padding: "1rem",
     display: "flex",
     color: isDone ? "#ccc" : "#333",
