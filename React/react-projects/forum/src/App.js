@@ -1,33 +1,37 @@
 import { useEffect, useState } from "react";
 import Header from "./components/Header.js";
+import BoardApp from "./components/BoardApp.js";
 
 export default function App() {
   const [token, setToken] = useState();
-  const [boards, setBoards] = useState([]);
 
-  // 게시글 불러오기
+  const [memberItem, setMemberItem] = useState();
+
   useEffect(() => {
-    const loadBoard = async () => {
+    const loadMember = async () => {
       if (!token) {
+        setMemberItem(undefined);
         return;
       }
-      const response = await fetch("http://localhost:8080/api/v1/boards", {
+
+      const response = await fetch("http://localhost:8080/api/v1/member", {
         method: "GET",
         headers: { Authorization: token },
       });
 
       const json = await response.json();
-      console.log(json);
-      setBoards(json.body);
+      setMemberItem(json.body);
+      // console.log(json.body);
     };
-    loadBoard();
+    loadMember();
   }, [token]);
 
   return (
     <div className="main-container">
-      <Header token={token} setToken={setToken} />
-      <div>게시글 목록</div>
-      <div>게시글 등록</div>
+      <Header token={token} setToken={setToken} memberItem={memberItem} />
+      <main>
+        <BoardApp token={token} memberItem={memberItem} />
+      </main>
     </div>
   );
 }

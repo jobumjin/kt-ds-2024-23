@@ -149,7 +149,8 @@ public class SecurityConfig {
 		// CSRF 방어로직 무효화.
 //		http.csrf(csrf -> csrf.disable());
 		// /auth/token URL에서는 CSRE 검사를 하지 않음. 화면에 보여주지 않는 URL의 CSRF토큰을 매번 저장해서 보내주기 어려우니.. 이렇게..
-		http.csrf(csrf -> csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/auth/token")));
+		http.csrf(csrf -> csrf.ignoringRequestMatchers(AntPathRequestMatcher.antMatcher("/auth/token"),
+													   AntPathRequestMatcher.antMatcher("/api/**")));
 		
 		http.addFilterAfter(this.jwtAuthenticationFilter, BasicAuthenticationFilter.class);
 		
