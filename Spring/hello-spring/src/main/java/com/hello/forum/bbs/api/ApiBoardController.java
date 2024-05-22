@@ -39,7 +39,10 @@ public class ApiBoardController {
 		
 		BoardListVO boardListVO = this.boardService.searchAllBoard(searchBoardVO);
 		
-		return ApiResponse.Ok(boardListVO.getBoardList(), boardListVO.getBoardCnt(), 1, false);
+		return ApiResponse.Ok(boardListVO.getBoardList()
+				, boardListVO.getBoardCnt()
+				, searchBoardVO.getPageCount()
+				, searchBoardVO.getPageNo()< searchBoardVO.getPageCount() - 1);
 	}
 	
 	@GetMapping("/boards/{id}")

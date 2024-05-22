@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { login } from "../http/http";
 
 export default function Header({ token, setToken, memberItem }) {
   const emailRef = useRef();
@@ -29,13 +30,8 @@ export default function Header({ token, setToken, memberItem }) {
       return;
     }
 
-    const response = await fetch("http://localhost:8080/auth/token", {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
-      headers: { "Content-Type": "application/json" },
-    });
+    const json = await login(email, password);
 
-    const json = await response.json();
     if (json.message) {
       alert(json.message);
       return;
@@ -45,7 +41,6 @@ export default function Header({ token, setToken, memberItem }) {
 
     // token의 값을 브라우저의 로컬 스토리지에 작성한다.
     localStorage.setItem("token", json.token);
-
     sessionStorage.setItem("token", json.token);
   };
 

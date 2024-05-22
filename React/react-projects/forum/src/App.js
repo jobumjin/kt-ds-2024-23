@@ -1,33 +1,36 @@
-import { useEffect, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import Header from "./components/Header.js";
 import BoardApp from "./components/BoardApp.js";
+import { loadMyData } from "./http/http.js";
+import { useFetch } from "./hooks/useFetch.js";
+// import { useTimeout } from "./hooks/timeout.js";
 
 export default function App() {
   const [token, setToken] = useState();
 
-  const [memberItem, setMemberItem] = useState();
-
-  useEffect(() => {
-    const loadMember = async () => {
-      if (!token) {
-        setMemberItem(undefined);
-        return;
-      }
-
-      const response = await fetch("http://localhost:8080/api/v1/member", {
-        method: "GET",
-        headers: { Authorization: token },
-      });
-
-      const json = await response.json();
-      setMemberItem(json.body);
-      // console.log(json.body);
-    };
-    loadMember();
+  // Hook 연습.. Hook은 굉장히 강력하고.. 독립적이다..
+  // Hook은 상수안에서 호출하는 친구들은 사용할 수 없다..
+  // const { data, isLoading } = useTimeout();
+  const fetchLoadMyData = useCallback(() => {
+    if (token) {
+      return loadMyData;
+    } else {
+      return () => {
+        return undefined;
+      };
+    }
   }, [token]);
+  const fetchToken = useMemo(() => {
+    return { token };
+  }, [token]);
+
+  const { data } = useFetch(undefined, fetchLoadMyData(), fetchToken);
+  // data 가 undefined 라면 {}를 할당.. 아니라면 data 할당
+  const { body: memberItem } = data || {};
 
   return (
     <div className="main-container">
+      {/* {isLoading ? <div>데이터를 불러오는 중입니다.</div> : <div>{data}</div>} */}
       <Header token={token} setToken={setToken} memberItem={memberItem} />
       <main>
         <BoardApp token={token} memberItem={memberItem} />

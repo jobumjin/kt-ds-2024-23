@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { modifyBoard } from "../http/http";
 
 export default function ModifyBoardForm({
   token,
@@ -6,6 +7,7 @@ export default function ModifyBoardForm({
   setNeedReload,
   boardItem,
   selectedBoardId,
+  setSelectedBoardId,
 }) {
   const subjectRef = useRef();
   const fileRef = useRef();
@@ -27,16 +29,8 @@ export default function ModifyBoardForm({
     formData.append("content", content);
     formData.append("file", file);
 
-    const response = await fetch(
-      `http://localhost:8080/api/v1/boards/${selectedBoardId}`,
-      {
-        method: "PUT",
-        headers: { Authorization: token },
-        body: formData,
-      }
-    );
-    const json = await response.json();
-    console.log(json);
+    const json = await modifyBoard(token, formData, selectedBoardId);
+    // console.log(json);
 
     if (json.errors) {
       json.errors.forEach((error) => {
@@ -45,6 +39,7 @@ export default function ModifyBoardForm({
     } else if (json.body) {
       setIsModifyMode(false);
       setNeedReload(Math.random());
+      setSelectedBoardId(selectedBoardId);
     }
   };
 

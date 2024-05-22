@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import ModifyBoardForm from "./ModifyBoardForm";
+import { deleteBoard, loadDetailBoard } from "../http/http";
+import { useFetch } from "../hooks/useFetch";
 
 export default function BoardView({
   selectedBoardId,
@@ -8,39 +10,38 @@ export default function BoardView({
   setNeedReload,
   memberItem,
   setIsButtonRemoveMode,
-  setBoardItem,
-  boardItem,
+  // setBoardItem,
+  // boardItem,
+  needReload,
 }) {
   const [isModifyMode, setIsModifyMode] = useState(false);
 
   //   const url = "http://localhost:8080/api/v1/boards/" + selectedBoardId;
-  useEffect(() => {
-    const loadBoard = async () => {
-      const response = await fetch(
-        `http://localhost:8080/api/v1/boards/${selectedBoardId}`,
-        { method: "GET", headers: { Authorization: token } }
-      );
+  const fetchLoadDetailBoard = useCallback(loadDetailBoard, []);
 
-      const json = await response.json();
-      setBoardItem(json.body);
-    };
-    loadBoard();
-  }, [token, selectedBoardId, setBoardItem]);
+  const fetchParam = useMemo(() => {
+    return { selectedBoardId, token, needReload };
+  }, [selectedBoardId, token, needReload]);
+
+  const { data, isLoading } = useFetch(
+    undefined,
+    fetchLoadDetailBoard,
+    fetchParam
+  );
+
+  const { body: boardItem } = data || {};
 
   const onModifyClickHandler = () => {
     setIsModifyMode(true);
   };
 
   const onDeleteClickHandler = async () => {
-    const response = await fetch(
-      `http://localhost:8080/api/v1/boards/${selectedBoardId}`,
-      { method: "DELETE", headers: { Authorization: token } }
-    );
-    const json = await response.json();
+    const json = await deleteBoard(token, selectedBoardId);
     if (json.body) {
       // 삭제 성공
       // 목록 컴포넌트를 노출.
       setSelectedBoardId(undefined);
+      setIsButtonRemoveMode(false);
       setNeedReload(Math.random());
     } else {
       // 삭제 실패
@@ -60,7 +61,7 @@ export default function BoardView({
     <div>
       {!isModifyMode && (
         <div>
-          {!boardItem && <div>데이터를 불러오는 중입니다.</div>}
+          {isLoading && <div>데이터를 불러오는 중입니다.</div>}
           {boardItem && !isModifyMode && (
             <div>
               <h3>{boardItem.subject}</h3>
@@ -100,6 +101,7 @@ export default function BoardView({
           token={token}
           setNeedReload={setNeedReload}
           boardItem={boardItem}
+          setSelectedBoardId={setSelectedBoardId}
         />
       )}
     </div>

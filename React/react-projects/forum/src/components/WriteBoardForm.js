@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { createBoard } from "../http/http";
 
 export default function WriteModeFrom({
   token,
@@ -11,6 +12,7 @@ export default function WriteModeFrom({
 
   const onCancelClickHandler = () => {
     setIsWriteMode(false);
+    setNeedReload(Math.random());
   };
 
   // API File Upload는 불가능하다.. AJAX를 이용해볼 것이다. => fetch..
@@ -19,20 +21,8 @@ export default function WriteModeFrom({
     const content = contentRef.current.value;
     const file = fileRef.current.files[0]; // 선택된 파일의 배열을 가져온다..
 
-    // 파일 업로드를 위해 formData생성
-    const formData = new FormData(); // javascript bulit-in 객체.
-    formData.append("subject", subject);
-    formData.append("content", content);
-    formData.append("file", file);
-
-    const response = await fetch("http://localhost:8080/api/v1/boards", {
-      method: "POST",
-      headers: { Authorization: token },
-      body: formData,
-    });
-    const json = await response.json();
-    console.log(json);
-
+    const json = await createBoard(subject, content, file, token);
+    // console.log(json);
     if (json.errors) {
       json.errors.forEach((error) => {
         alert(error);
